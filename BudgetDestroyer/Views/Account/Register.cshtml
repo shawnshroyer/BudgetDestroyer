@@ -1,0 +1,58 @@
+﻿@model BudgetDestroyer.Models.RegisterViewModel
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Register";
+}
+<div class="text-center mb-6">
+    Budget <img src="~/Images/icon-cut-cost.png" class="h-6" alt=""> Destroyer
+</div>
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "card", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+<div class="card-body p-6">
+    <div class="card-title">Create new account</div>
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.FirstName, new { @class = "form-label" })
+        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "Enter First Name" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.LastName, new { @class = "form-label" })
+        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Enter Last Name" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.DisplayName, new { @class = "form-label" })
+        @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control", placeholder = " Enter Display Name" })
+    </div>
+    @* Place Hodler for adding avatar functionality *@
+    @*<div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "form-label" })
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Enter Email" })
+    </div>*@
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "form-label" })
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Enter Email" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new { @class = "form-label" })
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Enter Password" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "form-label" })
+        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
+    </div>
+
+
+    <div class="form-footer">
+        <button type="submit" class="btn btn-primary btn-block">Register</button>
+    </div>
+</div>
+}
+
+<div class="text-center text-muted">
+    Already have account? @Html.ActionLink("Log In", "Register")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

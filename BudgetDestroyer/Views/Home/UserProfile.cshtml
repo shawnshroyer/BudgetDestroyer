@@ -1,0 +1,70 @@
+﻿@using BudgetDestroyer.Models
+
+@{
+    //(ApplicationUser)ViewBag.Profile;
+    ChangePasswordViewModel userPassword = new ChangePasswordViewModel();
+}
+
+<div class="my-3 my-md-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card card-profile">
+                    @* Below is a hack as using image tags will take to much work at this time. *@
+                    <div class="card-header" style='background-image: url("../../Images/coins.jpg");'></div>
+                    <div class="card-body text-center">
+                        <img class="card-profile-img" src="~/Avatar/default.png">
+                        <h3 class="mb-3">@User.Identity.FullName()</h3>
+                        <p class="mb-4">
+                            Big belly rude boy, million dollar hustler. Unemployed.
+                        </p>
+                        <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#myModal">
+                            <i class="fa fa-edit m-right-xs"></i> Open modal
+                        </button>
+                        @*<a href="@Url.Action("EditProfile", "Manage")" class="btn btn-outline-primary btn-sm">
+            <span class="fa fa-edit"></span> EDIT
+        </a>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Profile Edit</h4>
+                <button type="button" class="close" data-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#profile">Update Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#password">Update Password</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane container active" id="profile"><br />
+                        @Html.Partial("~/Views/Manage/ChangeUserProfile.cshtml", (ApplicationUser)ViewBag.Profile)
+                    </div>
+                    <div class="tab-pane container fade" id="password"><br />
+                        @Html.Partial("~/Views/Manage/ChangePassword.cshtml", userPassword)
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

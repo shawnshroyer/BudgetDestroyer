@@ -1,0 +1,153 @@
+﻿<div class="header py-4">
+    <div class="container">
+        <div class="d-flex">
+            <a class="header-brand" href="@Url.Action("Index", "Home")">
+                <img src="~/Images/icon-cut-cost.png" class="header-brand-img" alt="logo">
+            </a>
+            <div class="d-flex order-lg-2 ml-auto">
+                @* This will be a modal that will send a registration invite, Must be Head of House *@
+                <div class="nav-item d-none d-md-flex">
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#myModal">
+                        <i class="fa fa-user-plus m-right-xs"></i> Invite User
+                    </button>
+                </div>
+                <div class="dropdown d-none d-md-flex">
+                    <a class="nav-link icon" data-toggle="dropdown">
+                        <i class="fe fe-bell"></i>
+                        <span class="nav-unread"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                        <a href="#" class="dropdown-item d-flex">
+                            <span class="avatar mr-3 align-self-center" style="background-image: url(../../Avatar/default.png)"></span>
+                            <div>
+                                <strong>Nathan</strong> pushed new commit: Fix page load performance issue.
+                                <div class="small text-muted">10 minutes ago</div>
+                            </div>
+                        </a>
+                        <a href="#" class="dropdown-item d-flex">
+                            <span class="avatar mr-3 align-self-center" style="background-image: url(../../Avatar/default.png)"></span>
+                            <div>
+                                <strong>Alice</strong> started new task: Tabler UI design.
+                                <div class="small text-muted">1 hour ago</div>
+                            </div>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item text-center text-muted-dark">Mark all as read</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
+                        <span class="avatar" style="background-image: url(../../Avatar/default.png)"></span>
+                        <span class="ml-2 d-none d-lg-block">
+                            <span class="text-default">@User.Identity.FullName()</span>
+                            <small class="text-muted d-block mt-1">Administrator</small>
+                        </span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                        <a class="dropdown-item" href="#">
+                            <i class="dropdown-icon fe fe-user"></i> Profile
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            <i class="dropdown-icon fe fe-settings"></i> Settings
+                        </a>
+                        @* Use this to extend notifications *@
+                        <a class="dropdown-item" href="#">
+                            <span class="float-right"><span class="badge badge-primary">6</span></span>
+                            <i class="dropdown-icon fe fe-mail"></i> Inbox
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">
+                            <i class="dropdown-icon fe fe-help-circle"></i> Need help?
+                        </a>
+
+                        @* <a> tag is in the partial *@
+                        @Html.Partial("_LoginPartial")
+
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
+                <span class="header-toggler-icon"></span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
+    <div class="container">
+        <div class="row align-items-center">
+            @*<div class="col-lg-3 ml-auto">
+                    <form class="input-icon my-3 my-lg-0">
+                        <input type="search" class="form-control header-search" placeholder="Search&hellip;" tabindex="1">
+                        <div class="input-icon-addon">
+                            <i class="fe fe-search"></i>
+                        </div>
+                    </form>
+                </div>*@
+            <div class="col-lg order-lg-first">
+                <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index", "Home")" class="nav-link active"><i class="fe fe-home"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("About", "Home")" class="nav-link"><i class="fe fe-info"></i> About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("Contact", "Home")" class="nav-link"><i class="fe fe-mail"></i> Contact</a>
+                    </li>
+
+                    @*<li class="nav-item dropdown">
+                            <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fe fe-calendar"></i> Components</a>
+                            <div class="dropdown-menu dropdown-menu-arrow">
+                                <a href="./maps.html" class="dropdown-item ">Maps</a>
+                                <a href="./icons.html" class="dropdown-item ">Icons</a>
+                                <a href="./store.html" class="dropdown-item ">Store</a>
+                                <a href="./blog.html" class="dropdown-item ">Blog</a>
+                                <a href="./carousel.html" class="dropdown-item ">Carousel</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="./form-elements.html" class="nav-link"><i class="fe fe-check-square"></i> Forms</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./gallery.html" class="nav-link"><i class="fe fe-image"></i> Gallery</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./docs/index.html" class="nav-link"><i class="fe fe-file-text"></i> Documentation</a>
+                        </li>*@
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Invite User</h4>
+                <button type="button" class="close" data-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                @using (Html.BeginForm("Invitation", "Households", FormMethod.Post, new { @class = "card", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        @Html.Label("Email", htmlAttributes: new { @class = "form-label"})
+                        @Html.Editor("Email", new { htmlAttributes = new { @class = "form-control", placeholder = "Enter email" } })
+                    </div>
+                }
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
