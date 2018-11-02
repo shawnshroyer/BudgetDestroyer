@@ -1,4 +1,5 @@
 ﻿@using BudgetDestroyer.Helpers
+@using BudgetDestroyer.Models
 @using Microsoft.AspNet.Identity
 
 <div class="header py-4">
@@ -18,6 +19,14 @@
                         </button>
                     </div>
                 }
+                else
+                {
+                    <div class="nav-item d-none d-md-flex">
+                        <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#createModal">
+                            <i class="fa fa-plus m-right-xs"><div class="fa fa-home"></div></i> Create Household
+                        </button>
+                    </div>
+                }
 
                 @if (User.IsInRole("HoH"))
                 {
@@ -27,30 +36,30 @@
                         </button>
                     </div>
                 }
-            @*<div class="dropdown d-none d-md-flex">
-        <a class="nav-link icon" data-toggle="dropdown">
-            <i class="fe fe-bell"></i>
-            <span class="nav-unread"></span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-            <a href="#" class="dropdown-item d-flex">
-                <span class="avatar mr-3 align-self-center" style="background-image: url(../../Avatar/default.png)"></span>
-                <div>
-                    <strong>Nathan</strong> pushed new commit: Fix page load performance issue.
-                    <div class="small text-muted">10 minutes ago</div>
-                </div>
-            </a>
-            <a href="#" class="dropdown-item d-flex">
-                <span class="avatar mr-3 align-self-center" style="background-image: url(../../Avatar/default.png)"></span>
-                <div>
-                    <strong>Alice</strong> started new task: Tabler UI design.
-                    <div class="small text-muted">1 hour ago</div>
-                </div>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item text-center text-muted-dark">Mark all as read</a>
-        </div>
-    </div>*@
+                @*<div class="dropdown d-none d-md-flex">
+                        <a class="nav-link icon" data-toggle="dropdown">
+                            <i class="fe fe-bell"></i>
+                            <span class="nav-unread"></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                            <a href="#" class="dropdown-item d-flex">
+                                <span class="avatar mr-3 align-self-center" style="background-image: url(../../Avatar/default.png)"></span>
+                                <div>
+                                    <strong>Nathan</strong> pushed new commit: Fix page load performance issue.
+                                    <div class="small text-muted">10 minutes ago</div>
+                                </div>
+                            </a>
+                            <a href="#" class="dropdown-item d-flex">
+                                <span class="avatar mr-3 align-self-center" style="background-image: url(../../Avatar/default.png)"></span>
+                                <div>
+                                    <strong>Alice</strong> started new task: Tabler UI design.
+                                    <div class="small text-muted">1 hour ago</div>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item text-center text-muted-dark">Mark all as read</a>
+                        </div>
+                    </div>*@
                 <div class="dropdown">
                     <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
                         <span class="avatar" style="background-image: url(../../Avatar/default.png)"></span>
@@ -64,17 +73,17 @@
                             <i class="dropdown-icon fe fe-user"></i> Profile
                         </a>
                         @*<a class="dropdown-item" href="#">
-                    <i class="dropdown-icon fe fe-settings"></i> Settings
-                </a>
-                <!-- Use this to extend notifications -->
-                <a class="dropdown-item" href="#">
-                    <span class="float-right"><span class="badge badge-primary">6</span></span>
-                    <i class="dropdown-icon fe fe-mail"></i> Inbox
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">
-                    <i class="dropdown-icon fe fe-help-circle"></i> Need help?
-                </a>*@
+                                <i class="dropdown-icon fe fe-settings"></i> Settings
+                            </a>
+                            <!-- Use this to extend notifications -->
+                            <a class="dropdown-item" href="#">
+                                <span class="float-right"><span class="badge badge-primary">6</span></span>
+                                <i class="dropdown-icon fe fe-mail"></i> Inbox
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">
+                                <i class="dropdown-icon fe fe-help-circle"></i> Need help?
+                            </a>*@
 
                         @* <a> tag is in the partial *@
                         @Html.Partial("_LoginPartial")
@@ -191,20 +200,63 @@
 
             <div class="modal-body">
                 @*@using (Html.BeginForm("Leaving", "Households", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "inviteForm" }))
-                {
-                <div class="form-horizontal">
-                    @Html.AntiForgeryToken()
+                    {
+                    <div class="form-horizontal">
+                        @Html.AntiForgeryToken()
 
-                    <button type="submit" class="btn btn-danger btn-block">Leave</button>
+                        <button type="submit" class="btn btn-danger btn-block">Leave</button>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
-                </div>
-                }*@
+                    }*@
 
-                @Html.ActionLink("Leave", "Leaving", "Households", null, new { @class= "btn btn-danger btn-block" })
+                @Html.ActionLink("Leave", "Leaving", "Households", null, new { @class = "btn btn-danger btn-block" })
             </div>
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="createModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Create Household</h4>
+                <button type="button" class="close" data-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                @Html.Partial("~/Views/households/create.cshtml", new Household())
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @if (TempData.ContainsKey("status"))
+    {
+        if (TempData["status"].ToString() == "success")
+        {
+            <script>swal("Congradulations!", "Your message has been sent!", "success");</script>
+        }
+
+        if (TempData["status"].ToString() == "accepted")
+        {
+            <script>swal("Accepted!", "The recipient already accepted an invite.", "info");</script>
+        }
+
+        if (TempData["status"].ToString() == "pending")
+        {
+            <script>swal("Please Wait!", "Your last invitation has not expired yet.", "warning");</script>
+        }
+
+        if (TempData["status"].ToString() == "error")
+        {
+            <script>swal("OOPS!", "There was a problem sending your message", "error");</script>
+        }
+    }
+}

@@ -4,7 +4,53 @@
 
 }
 
-<p>
+<div class="my-3 my-md-5">
+    <div class="container">
+        <div class="row row-cards row-deck">
+            <div class="col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Members of the House</h3>
+                    </div>
+                    <div class="card-body o-auto">
+                        <ul class="list-unstyled list-separated">
+                            <li class="list-separated-item">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <span class="avatar avatar-md d-block" style="background-image: url(~/Avatar/default.png)"></span>
+                                    </div>
+                                    <div class="col">
+                                        <div>
+                                            <a href="javascript:void(0)" class="text-inherit">Amanda Hunt</a>
+                                        </div>
+                                        <small class="d-block item-except text-sm text-muted h-1x">amanda_hunt@example.com</small>
+                                    </div>
+                                    <div class="col-auto">
+                                        <!-- This can be used to allow Head of House to remove member -->
+                                        @*<div class="item-action dropdown">
+                                            <a href="javascript:void(0)" data-toggle="dropdown" class="icon" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
+                                            <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(-181px, 20px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fe fe-tag"></i> Action </a>
+                                                <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fe fe-edit-2"></i> Another action </a>
+                                                <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fe fe-message-square"></i> Something else here</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fe fe-link"></i> Separated link</a>
+                                            </div>
+                                        </div>*@
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@*<p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
@@ -29,29 +75,4 @@
         </tr>
     }
 
-</table>
-
-@section scripts {
-    @if (TempData.ContainsKey("status"))
-    {
-        if (TempData["status"].ToString() == "success")
-        {
-            <script>swal("Congradulations!", "Your message has been sent!", "success");</script>
-        }
-
-        if (TempData["status"].ToString() == "accepted")
-        {
-            <script>swal("Accepted!", "The recipient already accepted an invite.", "info");</script>
-        }
-
-        if (TempData["status"].ToString() == "pending")
-        {
-            <script>swal("Please Wait!", "Your last invitation has not expired yet.", "warning");</script>
-        }
-
-        if (TempData["status"].ToString() == "error")
-        {
-            <script>swal("OOPS!", "There was a problem sending your message", "error");</script>
-        }
-    }
-}
+</table>*@
