@@ -659,6 +659,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\BudgetDestroyer.css" />
     <Content Include="Content\style.css" />
+    <Content Include="Content\sweetalert2.css" />
+    <Content Include="Content\sweetalert2.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -724,6 +726,10 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\sweetalert2.all.js" />
+    <Content Include="Scripts\sweetalert2.all.min.js" />
+    <Content Include="Scripts\sweetalert2.js" />
+    <Content Include="Scripts\sweetalert2.min.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
@@ -807,6 +813,7 @@
     <Content Include="Views\Manage\ChangeUserProfile.cshtml" />
     <Content Include="Views\Account\RegisterInvitation.cshtml" />
     <Content Include="Views\Households\Invitation.cshtml" />
+    <Content Include="Views\Manage\CreateHousehold.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

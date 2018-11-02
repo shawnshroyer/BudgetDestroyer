@@ -14,19 +14,44 @@
         </th>
         <th></th>
     </tr>
-    
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-    
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
 </table>
 
+@section scripts {
+    @if (TempData.ContainsKey("status"))
+    {
+        if (TempData["status"].ToString() == "success")
+        {
+            <script>swal("Congradulations!", "Your message has been sent!", "success");</script>
+        }
+
+        if (TempData["status"].ToString() == "accepted")
+        {
+            <script>swal("Accepted!", "The recipient already accepted an invite.", "info");</script>
+        }
+
+        if (TempData["status"].ToString() == "pending")
+        {
+            <script>swal("Please Wait!", "Your last invitation has not expired yet.", "warning");</script>
+        }
+
+        if (TempData["status"].ToString() == "error")
+        {
+            <script>swal("OOPS!", "There was a problem sending your message", "error");</script>
+        }
+    }
+}

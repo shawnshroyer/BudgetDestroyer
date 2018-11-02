@@ -29,15 +29,33 @@ namespace BudgetDestroyer.Helpers
             return db.Households.Find(householdId).Name;
         }
 
-        //public bool AddUserToHouse (string UserId)
-        //{
-        //    int? householdId = db.Users.Find(UserId).HouseholdId;
+        public static bool IsUserInAHouse(string UserId)
+        {
+            if (string.IsNullOrEmpty(UserId))
+            {
+                return false;
+            }
+            if(db.Users.Find(UserId).HouseholdId > 0)
+            {
+                return true;
+            }
 
-        //    db.Households.Add(household);
-        //    db.SaveChanges();
+            return false;
+        }
 
-        //    return false;
-        //}
+        public static bool AddUserToHouse(string UserId, int HouseId)
+        {
+            var thisUser = db.Users.FirstOrDefault(u => u.Id == UserId);
+
+            thisUser.HouseholdId = HouseId;
+
+            db.Users.Attach(thisUser);
+            db.Entry(thisUser).Property(x => x.HouseholdId).IsModified = true;
+
+            db.SaveChanges();
+
+            return true;
+        }
 
     }
 }

@@ -9,8 +9,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BudgetDestroyer.Models;
+using BudgetDestroyer.Helpers;
 using System.Net.Mail;
-
+using System.Data.Entity;
 
 namespace BudgetDestroyer.Controllers
 {
@@ -19,6 +20,8 @@ namespace BudgetDestroyer.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
+        private UserRolesHelper userRolesHelper = new UserRolesHelper();
 
         public AccountController()
         {
@@ -153,7 +156,12 @@ namespace BudgetDestroyer.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    DisplayName = model.DisplayName,
+                    UserName = model.Email,
+                    Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -435,19 +443,59 @@ namespace BudgetDestroyer.Controllers
             return View();
         }
 
-        //// POST: Households/RegisterInvitation/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult RegisterInvitation(Household household)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(household).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(household);
-        //}
+        // GET: /Account/RegisterInvitation
+        [AllowAnonymous]
+        public ActionResult RegisterInvitation(string code)
+        {
+            RegisterViewModel registerViewModel = new RegisterViewModel();
+            Guid guidCode = new Guid();
+            Guid.TryParse(code, out guidCode);
+
+            ViewBag.Code = code;
+            ViewBag.Email = db.Invitations.Where(e => e.UniqueCode == guidCode).FirstOrDefault().EmailTo;
+
+            return View(registerViewModel);
+        }
+
+        // POST: Households/RegisterInvitation/
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterInvitation(RegisterViewModel model, string code)
+        {
+            if (ModelState.IsValid)
+            {
+                Guid guidCode = new Guid();
+                Guid.TryParse(code, out guidCode);
+
+                var invitation = db.Invitations.Where(i => i.UniqueCode == guidCode).FirstOrDefault();
+
+                var user = new ApplicationUser {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    DisplayName = model.DisplayName,
+                    UserName = model.Email,
+                    Email = model.Email,
+                    HouseholdId = invitation.HouseholdId
+                };
+
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    userRolesHelper.AddUserToRole(user.Id, "User");
+                    invitation.Accepted = true;
+                    db.SaveChanges();
+
+                    return RedirectToAction("Index", "Home");
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
 
         protected override void Dispose(bool disposing)
         {

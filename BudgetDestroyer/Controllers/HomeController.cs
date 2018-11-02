@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using BudgetDestroyer.Models;
 using BudgetDestroyer.Extensions;
+using BudgetDestroyer.Helpers;
 using Microsoft.AspNet.Identity;
 
 namespace BudgetDestroyer.Controllers
@@ -12,13 +13,15 @@ namespace BudgetDestroyer.Controllers
     [Authorize]
     public class HomeController : Controller
     {
+        [AllowAnonymous]
         public ActionResult Index()
         {
-            // If Index is used for Appdetails page then uncomment
-            //if (User.Identity.IsAuthenticated) {
+            if (HouseholdHelper.IsUserInAHouse(User.Identity.GetUserId()))
+            {
                 return RedirectToAction("Index", "Households");
-            //}
-            //return View();
+            }
+
+            return View();
         }
 
         public ActionResult About()

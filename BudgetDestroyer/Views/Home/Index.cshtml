@@ -1,7 +1,38 @@
 ﻿@{
+    var authenticated = User.Identity.IsAuthenticated;
+
+    if (!(authenticated))
+    {
+        Layout = "~/Views/Shared/_Admin.cshtml";
+    }
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>Comming Soon, Dashboard.</h1>
+<div class="text-center mb-6">
+    Budget <img src="~/Images/icon-cut-cost.png" class="h-6" alt=""> Destroyer
+</div>
+<div class="card">
+    <div class="card-header">
+        @if (authenticated)
+        {
+            <h3 class="card-title">Create a Household</h3>
+        }
+        else
+        {
+            <h3 class="card-title">Login or Register</h3>
+        }
+
+    </div>
+    <div class="card-body">
+        @if (authenticated)
+        {
+            @Html.ActionLink("Creat Household", "Create", "Household", null, new { @class = "btn btn-primary btn-block" })
+        }
+        else
+        {
+            @Html.ActionLink("Login", "Login", "Account", null, new { @class = "btn btn-primary btn-block" })
+            <br />
+            @Html.ActionLink("Register", "Register", "Account", null, new { @class = "btn btn-primary btn-block" })
+        }
+    </div>
 </div>

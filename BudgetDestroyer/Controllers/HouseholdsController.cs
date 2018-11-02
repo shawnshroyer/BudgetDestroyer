@@ -130,6 +130,21 @@ namespace BudgetDestroyer.Controllers
             {
                 var email = new MailAddress(Email).ToString();
 
+                foreach (var invite in db.Invitations.Where(i => i.EmailTo.ToLower() == email.ToLower()))
+                {
+                    if (invite.Accepted)
+                    {
+                        TempData["status"] = "accepted";
+                        return RedirectToAction("Index", "Households", null);
+                    }
+
+                    if (invite.Expires >= DateTime.Now)
+                    {
+                        TempData["status"] = "pending";
+                        return RedirectToAction("Index", "Households", null);
+                    }
+                }
+
                 Invitation invitation = new Invitation
                 {
                     Created = DateTime.Now,
@@ -142,29 +157,30 @@ namespace BudgetDestroyer.Controllers
                     Accepted = false
                 };
 
+                db.Invitations.Add(invitation);
+                db.SaveChanges();
+
                 string code = invitation.UniqueCode.ToString();
                 var callbackUrl = Url.Action("RegisterInvitation", "Account", new { code = code }, protocol: Request.Url.Scheme);
 
                 //var message = "<p>Email From: <bold>{0}</bold>({1})</p><p> Message:</p><p>{2}</p> ";
-                var bodyButton = "< a href =\"" + callbackUrl + "\">here</a>";
+                var bodyButton = "<a href =\"" + callbackUrl + "\">here</a>";
                 var sentEmail = new MailMessage("noreply@gmail.com", email)
                 {
                     Subject = invitation.Subject,
-                    Body = $"{invitation.Body} Please Join by clicking {bodyButton}",
+                    Body = $"{invitation.Body}. Please Join by clicking {bodyButton}",
                     IsBodyHtml = true
                 };
 
                 var svc = new PersonalEmail();
                 await svc.SendAsync(sentEmail);
 
-                db.Invitations.Add(invitation);
-                db.SaveChanges();
-
                 TempData["status"] = "success";
                 return RedirectToAction("Index", "Households", null);
             }
             catch (FormatException ex)
             {
+                TempData["status"] = "error";
                 return RedirectToAction("Index", "Households", null);
             }
         }

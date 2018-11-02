@@ -2,15 +2,19 @@
     <div class="container">
         <div class="d-flex">
             <a class="header-brand" href="@Url.Action("Index", "Home")">
+                <span class="h3">Budget</span>
                 <img src="~/Images/icon-cut-cost.png" class="header-brand-img" alt="logo">
+                <span class="h3">Destroyer</span>
             </a>
             <div class="d-flex order-lg-2 ml-auto">
-                @* This will be a modal that will send a registration invite, Must be Head of House *@
-                <div class="nav-item d-none d-md-flex">
-                    <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#myModal">
-                        <i class="fa fa-user-plus m-right-xs"></i> Invite User
-                    </button>
-                </div>
+                @if (User.IsInRole("HoH"))
+                {
+                    <div class="nav-item d-none d-md-flex">
+                        <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#myModal">
+                            <i class="fa fa-user-plus m-right-xs"></i> Invite User
+                        </button>
+                    </div>
+                }
                 <div class="dropdown d-none d-md-flex">
                     <a class="nav-link icon" data-toggle="dropdown">
                         <i class="fe fe-bell"></i>
@@ -134,19 +138,29 @@
             </div>
 
             <div class="modal-body">
-                @using (Html.BeginForm("Invitation", "Households", FormMethod.Post, new { @class = "card", role = "form" }))
+                @using (Html.BeginForm("Invitation", "Households", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "inviteForm" }))
                 {
-                    @Html.AntiForgeryToken()
+                    <div class="form-horizontal">
+                        @Html.AntiForgeryToken()
 
-                    <div class="form-group">
-                        @Html.Label("Email", htmlAttributes: new { @class = "form-label"})
-                        @Html.Editor("Email", new { htmlAttributes = new { @class = "form-control", placeholder = "Enter email" } })
+                        <div class="form-group">
+                            @Html.Label("Email", htmlAttributes: new { @class = "form-label" })
+                            @Html.Editor("Email", new { htmlAttributes = new { @class = "form-control", placeholder = "Enter email" } })
+                        </div>
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default">Submit</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 }
-            </div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                @*<div class="modal-footer">
+                    <button id="formSubmit" class="btn btn-default">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>*@
             </div>
         </div>
     </div>
