@@ -19,6 +19,7 @@ namespace BudgetDestroyer.Controllers
     public class HouseholdsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        UserRolesHelper userRolesHelper = new UserRolesHelper();
 
         // GET: Households
         public ActionResult Index()
@@ -58,6 +59,10 @@ namespace BudgetDestroyer.Controllers
             {
                 db.Households.Add(household);
                 db.SaveChanges();
+
+                HouseholdHelper.AddUserToHouse(User.Identity.GetUserId(), household.Id);
+                userRolesHelper.AddUserToRole(User.Identity.GetUserId(), "HoH");
+
                 return RedirectToAction("Index");
             }
 
@@ -183,6 +188,39 @@ namespace BudgetDestroyer.Controllers
                 TempData["status"] = "error";
                 return RedirectToAction("Index", "Households", null);
             }
+        }
+
+        [Authorize]
+        public ActionResult Leaving()
+        {
+            var userId = User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+            var household = db.Households.Find(user.HouseholdId);
+
+            if (User.IsInRole("User"))
+            {
+                userRolesHelper.RemoveUserFromRole(userId, "User");
+                user.HouseholdId = null;
+
+                db.SaveChanges();
+            }
+
+            if (userRolesHelper.IsUserInRole(userId, "HoH"))
+            {
+                if (HouseholdHelper.AnyUsersInHousehold(household.Id))
+                {
+                    HouseholdHelper.AssignRandomHoH(household.Id);
+                }
+
+                userRolesHelper.RemoveUserFromRole(userId, "HoH");
+                user.HouseholdId = null;
+
+                db.Households.Remove(household);
+                db.SaveChanges();
+
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         protected override void Dispose(bool disposing)

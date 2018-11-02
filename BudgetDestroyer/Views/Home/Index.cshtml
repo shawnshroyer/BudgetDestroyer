@@ -8,31 +8,34 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="text-center mb-6">
+@*<div class="text-center mb-6">
     Budget <img src="~/Images/icon-cut-cost.png" class="h-6" alt=""> Destroyer
-</div>
-<div class="card">
-    <div class="card-header">
-        @if (authenticated)
-        {
-            <h3 class="card-title">Create a Household</h3>
-        }
-        else
-        {
-            <h3 class="card-title">Login or Register</h3>
-        }
+</div>*@
 
-    </div>
-    <div class="card-body">
-        @if (authenticated)
-        {
-            @Html.ActionLink("Creat Household", "Create", "Household", null, new { @class = "btn btn-primary btn-block" })
-        }
-        else
-        {
-            @Html.ActionLink("Login", "Login", "Account", null, new { @class = "btn btn-primary btn-block" })
-            <br />
-            @Html.ActionLink("Register", "Register", "Account", null, new { @class = "btn btn-primary btn-block" })
-        }
+<div class="col col-login mx-auto">
+    <div class="card">
+        <div class="card-header">
+            @if (authenticated)
+            {
+                <h3 class="card-title">Create a Household</h3>
+            }
+            else
+            {
+                <h3 class="card-title">Login or Register</h3>
+            }
+
+        </div>
+        <div class="card-body p-6">
+            @if (authenticated)
+            {
+                @Html.ActionLink("Goto Create Household", "Create", "Households", null, new { @class = "btn btn-primary btn-block" })
+            }
+            else
+            {
+                @Html.ActionLink("Login", "Login", "Account", null, new { @class = "btn btn-primary btn-block" })
+                <br />
+                @Html.ActionLink("Register", "Register", "Account", null, new { @class = "btn btn-primary btn-block" })
+            }
+        </div>
     </div>
 </div>

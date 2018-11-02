@@ -813,7 +813,6 @@
     <Content Include="Views\Manage\ChangeUserProfile.cshtml" />
     <Content Include="Views\Account\RegisterInvitation.cshtml" />
     <Content Include="Views\Households\Invitation.cshtml" />
-    <Content Include="Views\Manage\CreateHousehold.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

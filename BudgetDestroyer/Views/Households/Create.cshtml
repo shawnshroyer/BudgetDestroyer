@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Admin.cshtml";
 }
 
-@using (Html.BeginForm("CreateHousehold", "Manage", FormMethod.Post, new { @class = "card", action = "", role = "form" }))
+@using (Html.BeginForm("Create", "Household", FormMethod.Post, new { @class = "card", action = "", role = "form" }))
 {
     @Html.AntiForgeryToken()
 
@@ -14,10 +14,10 @@
     <div class="card-body p-6">
         <div class="card-title">Create a New Household</div>
         <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "form-label" })
-
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "form-label" })
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Household Name" } })
+
         </div>
 
         <div class="form-footer">
