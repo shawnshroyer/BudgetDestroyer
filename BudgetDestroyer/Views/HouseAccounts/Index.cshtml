@@ -1,59 +1,71 @@
-﻿@model IEnumerable<BudgetDestroyer.Models.HouseAccount>
+﻿@using BudgetDestroyer.Models
+@model IEnumerable<HouseAccount>
 
 @{
     Layout = null;
 }
 
-<!DOCTYPE html>
+<div class="row row-cards row-deck">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title h3">Accounts</div>
+                <button type="button" class="btn btn-outline-primary btn-sm btnSpace" data-toggle="modal" data-target="#addAccountModal">
+                    <i class="fa fa-plus-circle m-right-xs"></i> Add Account
+                </button>
+            </div>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Household.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Balance)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReconciledBalace)
-            </th>
-            <th></th>
-        </tr>
-    
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Household.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Balance)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReconciledBalace)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-            </td>
-        </tr>
-    }
-    
-    </table>
-</body>
-</html>
+            <div class="table-responsive col-md-11 align-self-md-center">
+                <table class="table card-table table-vcenter text-nowrap" id="accountTable">
+                    <thead>
+                        <tr>
+                            <th class="w-1">No.</th>
+                            <th>Account</th>
+                            <th>Balance</th>
+                            <th>Reconciled Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{int i = 1;}
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td><span class="text-muted">@i</span></td>
+                            <td>
+                                @item.Name
+                            </td>
+                            <td>
+                                @item.Balance
+                            </td>
+                            <td>
+                                @item.ReconciledBalace
+                            </td>
+                            @*<td>
+            <span class="status-icon bg-success"></span> Paid
+        </td>
+        <td>$887</td>*@
+                            <td class="text-right">
+                                <a href="javascript:void(0)" class="btn btn-secondary btn-sm">Manage</a>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">Actions</button>
+                                </div>
+                            </td>
+                            <td>
+                                <a class="icon" href="javascript:void(0)">
+                                    <i class="fe fe-edit"></i>
+                                </a>
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

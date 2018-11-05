@@ -26,6 +26,8 @@
 
     <link href="~/Content/sweetalert2.min.css" rel="stylesheet" />
 
+    <link  href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"  rel="stylesheet"/>
+
     <!-- Dashboard Core -->
     <link href="~/assets/css/dashboard.css" rel="stylesheet" />
 
@@ -65,7 +67,7 @@
                         </div>
                     </div>
                     <div class="col-12 col-lg-auto mt-3 mt-lg-0 text-center">
-                        Copyright © 2018-@DateTime.Now Tabler Theme by <a href="https://codecalm.net" target="_blank">codecalm.net</a> and Modified by Destroyer Productions All rights reserved.
+                        Copyright © 2018-@DateTime.Now.Year Tabler Theme by <a href="https://codecalm.net" target="_blank">codecalm.net</a> and Modified by Destroyer Productions All rights reserved.
                     </div>
                 </div>
             </div>
@@ -77,15 +79,18 @@
 
     <script src="~/Scripts/sweetalert2.min.js"></script>
 
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
     <script src="~/assets/js/require.min.js"></script>
-    <script>
+
+    @*<script>
         requirejs.config({
             baseUrl: '../.'
         });
     </script>
 
     <!-- Dashboard Core -->
-    <script src="~/assets/js/dashboard.js"></script>
+    <script src="~/assets/js/dashboard.js"></script>*@
 
     @*<!-- c3.js Charts Plugin -->
         <script src="./assets/plugins/charts-c3/plugin.js"></script>

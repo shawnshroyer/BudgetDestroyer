@@ -24,7 +24,13 @@ namespace BudgetDestroyer.Controllers
         // GET: Households
         public ActionResult Index()
         {
-            return View(db.Households.ToList());
+            var householdId = HouseholdHelper.GetUserHouseholdId(User.Identity.GetUserId());
+
+            ViewBag.HouseAccounts = db.HouseAccounts.Where(h => h.HouseholdId == householdId).ToList();
+            ViewBag.Transactions = db.Transactions.Where(t => db.HouseAccounts.Any(h =>
+                h.Id == t.HouseAccountId && h.HouseholdId == householdId));
+
+            return View(db.Households.Find(householdId));
         }
 
         // GET: Households/Details/5

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<BudgetDestroyer.Models.Household>
+﻿@using BudgetDestroyer.Models
+@model Household
 
 @{
 
@@ -6,6 +7,101 @@
 
 <div class="my-3 my-md-5">
     <div class="container">
+
+        <!-- Bank Account Management -->
+        @Html.Partial("~/Views/HouseAccounts/index.cshtml", (List<HouseAccount>)ViewBag.HouseAccounts)
+
+        <!-- Transaction Management -->
+        <div class="row row-cards row-deck">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title h3">Transactions</div>
+                        <button type="button" class="btn btn-outline-primary btn-sm btnSpace" data-toggle="modal" data-target="#addTransactionModal">
+                            <i class="fa fa-plus-circle m-right-xs"></i> Add Account
+                        </button>
+                    </div>
+
+                    <div class="table-responsive col-md-11 align-self-md-center">
+                        <table class="table card-table table-vcenter text-nowrap" id="accountTable">
+                            <thead>
+                                <tr>
+                                    <th class="w-1">No.</th>
+                                    <th>Invoice Subject</th>
+                                    <th>Client</th>
+                                    <th>VAT No.</th>
+                                    <th>Created</th>
+                                    <th>Status</th>
+                                    <th>Price</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="text-muted">001401</span></td>
+                                    <td><a href="invoice.html" class="text-inherit">Design Works</a></td>
+                                    <td>
+                                        Carlson Limited
+                                    </td>
+                                    <td>
+                                        87956621
+                                    </td>
+                                    <td>
+                                        15 Dec 2017
+                                    </td>
+                                    <td>
+                                        <span class="status-icon bg-success"></span> Paid
+                                    </td>
+                                    <td>$887</td>
+                                    <td class="text-right">
+                                        <a href="javascript:void(0)" class="btn btn-secondary btn-sm">Manage</a>
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">Actions</button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a class="icon" href="javascript:void(0)">
+                                            <i class="fe fe-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="text-muted">001402</span></td>
+                                    <td><a href="invoice.html" class="text-inherit">UX Wireframes</a></td>
+                                    <td>
+                                        Adobe
+                                    </td>
+                                    <td>
+                                        87956421
+                                    </td>
+                                    <td>
+                                        12 Apr 2017
+                                    </td>
+                                    <td>
+                                        <span class="status-icon bg-warning"></span> Pending
+                                    </td>
+                                    <td>$1200</td>
+                                    <td class="text-right">
+                                        <a href="javascript:void(0)" class="btn btn-secondary btn-sm">Manage</a>
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">Actions</button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a class="icon" href="javascript:void(0)">
+                                            <i class="fe fe-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- List of Users -->
         <div class="row row-cards row-deck">
             <div class="col-md-6 col-lg-4">
                 <div class="card">
@@ -17,7 +113,7 @@
                             <li class="list-separated-item">
                                 <div class="row align-items-center">
                                     <div class="col-auto">
-                                        <span class="avatar avatar-md d-block" style="background-image: url(~/Avatar/default.png)"></span>
+                                        <span class="avatar avatar-md d-block" style="background-image: url(../../Avatar/default.png)"></span>
                                     </div>
                                     <div class="col">
                                         <div>
@@ -48,31 +144,42 @@
     </div>
 </div>
 
+@section scripts
+{
+    @*<script>     
+        $(function () {
+            $('#accountTable').DataTable();
+        });
+    </script>*@
+
+    @*<script src="~/Scripts/Households.js"></script>*@
+}
+
 
 
 @*<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>*@
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>*@

@@ -16,12 +16,14 @@ namespace BudgetDestroyer.Models
         public int BudgetItemId { get; set; }
         public string EnteredById { get; set; }
 
-        public string Discription { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public DateTime Date { get; set; }
         public decimal Amount { get; set; }
-       
+
         public bool Reconciled { get; set; }
         public decimal ReconciledAmount { get; set; }
+        public bool VoidTransaction {get;set;}
 
         public virtual HouseAccount HouseAccount { get; set; }     
         public virtual TransactionType TransactionType { get; set; }

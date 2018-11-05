@@ -22,7 +22,10 @@
                 else
                 {
                     <div class="nav-item d-none d-md-flex">
-                        <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#createModal">
+                        @*<button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#createModal">
+                            <i class="fa fa-plus m-right-xs"><div class="fa fa-home"></div></i> Create Household
+                        </button>*@
+                        <button type="button" class="btn btn-outline-primary btn-sm" href="@Url.Action("Create", "Households")">
                             <i class="fa fa-plus m-right-xs"><div class="fa fa-home"></div></i> Create Household
                         </button>
                     </div>
@@ -218,7 +221,7 @@
     </div>
 </div>
 
-<!-- Modal -->
+@*<!-- Modal -->
 <div class="modal fade" id="createModal" role="dialog">
     <div class="modal-dialog">
 
@@ -234,7 +237,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@
 
 @section scripts {
     @if (TempData.ContainsKey("status"))
