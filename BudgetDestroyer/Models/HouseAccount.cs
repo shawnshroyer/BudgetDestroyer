@@ -16,6 +16,7 @@ namespace BudgetDestroyer.Models
         public string Name { get; set; }
         public decimal Balance { get; set; }
         public decimal ReconciledBalace { get; set; }
+        public bool DeleteAccount { get; set; }
 
         public virtual Household Household { get; set; }
 

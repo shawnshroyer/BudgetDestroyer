@@ -4,86 +4,69 @@
     Layout = null;
 }
 
-<!DOCTYPE html>
+<div class="row row-cards row-deck">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title h3">Transactions</div>
+                <button type="button" class="btn btn-outline-primary btn-sm btnSpace" data-toggle="modal" data-target="#addTransactionModal">
+                    <i class="fa fa-plus-circle m-right-xs"></i> Add Account
+                </button>
+            </div>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.EnteredBy.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HouseAccount.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TransactionType.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BudgetItemId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Discription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Reconciled)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReconciledAmount)
-            </th>
-            <th></th>
-        </tr>
-    
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EnteredBy.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HouseAccount.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TransactionType.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BudgetItemId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Discription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Reconciled)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReconciledAmount)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-            </td>
-        </tr>
-    }
-    
-    </table>
-</body>
-</html>
+            <div class="table-responsive col-md-11 align-self-md-center">
+                <table class="table card-table table-vcenter text-nowrap" id="transactionTable">
+                    <thead>
+                        <tr>
+                            <th class="w-1">No.</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Member</th>
+                            <th>Type</th>
+                            <th lass="text-md-center">Reconciled<br />Amount</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{int i = 1;}
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td><span class="text-muted">@i</span></td>
+                            <td>
+                                @Convert.ToDateTime(Html.DisplayFor(modelItem => item.Date).ToString()).ToString("MM/dd/yyyy")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Amount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EnteredBy.FirstName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TransactionType.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReconciledAmount)
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-outline-primary btn-sm btnSpace float-md-right" data-toggle="modal" data-target="#editAccountModal">
+                                    <i class="fa fa-edit m-right-xs"></i> Edit
+                                </button>
+                                <button type="button" class="btn btn-outline-danger btn-sm btnSpace float-md-right" data-toggle="modal" data-target="#deleteAccountModal">
+                                    <i class="fa fa-remove m-right-xs"></i> Delete
+                                </button>
+                            </td>
+                            @*<td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            </td>*@
+                        </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,3 +1,13 @@
 ﻿.btnSpace {
     margin: 0px 10px;
 }
+
+.table-responsive {
+    margin-top: 15px;
+}
+
+.table th
+{
+    font-weight: bold;
+    text-align: center;
+}
