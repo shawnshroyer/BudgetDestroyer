@@ -119,5 +119,15 @@ namespace BudgetDestroyer.Helpers
 
             return userManager.FindById(userId).AvatarPath.ToString();
         }
+
+        public string GetUserRole(string userId)
+        {
+            foreach(var role in userManager.GetRoles(userId))
+            {
+                return role;
+            }
+
+            return "User Not In Role";
+        }
     }
 }
