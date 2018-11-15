@@ -64,7 +64,8 @@
 </div>
 
 @Html.Partial("~/Views/HouseAccounts/create.cshtml", houseAccount, new ViewDataDictionary { { "HouseholdId", ViewBag.HouseholdId } })
-@Html.Partial("~/Views/Transactions/create.cshtml", transaction, new ViewDataDictionary { { "HouseAccountsId", ViewBag.HouseAccountsSelect }, { "TransactionTypes", ViewBag.TransactionTypes } })
+@Html.Partial("~/Views/Transactions/create.cshtml", transaction, new ViewDataDictionary { { "HouseAccountId", ViewBag.HouseAccountsSelect }, { "TransactionTypes", ViewBag.TransactionTypes }, { "BudgetItemSelect", ViewBag.BudgetItemSelect } })
+<div id="modalRender"></div>
 
 @section scripts
 {
@@ -73,6 +74,33 @@
             $('#transactionTable').DataTable();
         });
     </script>
+    @*<script>
+        $(".tranDeleteBtn").click(function () {
+
+        });
+    </script>*@
+
+    @* Would like to be able to edit a transaction via modal *@
+    @*<script>
+        $(".tranEditBtn").click(function () {
+            let arg1 = event.target.getAttribute('data-edit');
+            @Html.Partial("~/Views/Transactions/Edit.cshtml", transaction, new ViewDataDictionary { { "HouseAccountsId", ViewBag.HouseAccountsSelect }, { "TransactionTypes", ViewBag.TransactionTypes } })
+
+            $.ajax({
+                url: "@Url.Action("Edit", "Transactions")/"+arg1,
+                type: "GET",
+                success: function (response, status, xhr) {
+                    $("modalRender").append(response);
+                    $("modalRender").html(response);
+                    //var jqContainer = appendContainer();
+                    //jqContainer.html(response);
+                }
+            });
+            $('#editTranModal').modal('toggle');
+        });
+    </script>*@
+
+
 
     @*<script src="~/Scripts/Households.js"></script>*@
 }

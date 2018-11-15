@@ -30,6 +30,7 @@
                         @{int i = 1;}
                         @foreach (var item in Model)
                         {
+                            @Html.HiddenFor(model => item.Id)
                         <tr>
                             <td><span class="text-muted">@i</span></td>
                             <td>
@@ -46,12 +47,18 @@
                             </td>
                             <td>$887</td>*@
                             <td>
-                                <button type="button" class="btn btn-outline-danger btn-sm btnSpace float-right" data-toggle="modal" data-target="#deleteAccountModal">
-                                    <i class="fa fa-remove m-right-xs"></i> Delete
-                                </button>                                
-                                <button type="button" class="btn btn-outline-primary btn-sm btnSpace float-right" data-toggle="modal" data-target="#editAccountModal">
-                                    <i class="fa fa-edit m-right-xs"></i> Edit
-                                </button>
+                                @using (Html.BeginForm("Delete", "HouseAccounts", new { id = item.Id }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-outline-danger btn-sm btnSpace float-right tranDeleteBtn" @*data-delete="@item.Id" data-toggle="modal" data-target="#deleteTranModal"*@>
+                                        <i class="fa fa-remove m-right-xs"></i> Delete
+                                    </button>
+                                }
+                                <a href="@Url.Action("Edit", "HouseAccounts", new { id = item.Id })">
+                                    <button class="btn btn-outline-primary btn-sm btnSpace float-right" @*data-edit="@item.Id" data-toggle="modal" data-target="#editTranModal"*@>
+                                        <i class="fa fa-edit m-right-xs"></i> Edit
+                                    </button>
+                                </a>
                             </td>
                             @*<td>
                                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

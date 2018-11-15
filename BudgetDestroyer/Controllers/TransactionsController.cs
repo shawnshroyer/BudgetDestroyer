@@ -43,6 +43,8 @@ namespace BudgetDestroyer.Controllers
             ViewBag.EnteredById = new SelectList(db.Users, "Id", "FirstName");
             ViewBag.HouseAccountId = new SelectList(db.HouseAccounts, "Id", "Name");
             ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name");
+            ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name");
+
             return View();
         }
 
@@ -55,9 +57,14 @@ namespace BudgetDestroyer.Controllers
         {
             if (ModelState.IsValid)
             {
+                transaction.Reconciled = false;
+                transaction.ReconciledAmount = 0.00M;
+                transaction.Date = DateTime.Now;
+
                 db.Transactions.Add(transaction);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                return RedirectToAction("Index", "Households");
             }
 
             ViewBag.EnteredById = new SelectList(db.Users, "Id", "FirstName", transaction.EnteredById);
@@ -81,6 +88,8 @@ namespace BudgetDestroyer.Controllers
             ViewBag.EnteredById = new SelectList(db.Users, "Id", "FirstName", transaction.EnteredById);
             ViewBag.HouseAccountId = new SelectList(db.HouseAccounts, "Id", "Name", transaction.HouseAccountId);
             ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name", transaction.TransactionTypeId);
+            ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name", transaction.BudgetItemId);
+
             return View(transaction);
         }
 
@@ -93,13 +102,24 @@ namespace BudgetDestroyer.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (!transaction.Reconciled)
+                {
+                    //var oldBalance = db.Transactions.AsNoTracking().Where(t => t.Id == transaction.Id).FirstOrDefault().ReconciledAmount;
+                    if (transaction.ReconciledAmount > 0)
+                    {
+                        transaction.Reconciled = true;
+                    }
+                }
+
                 db.Entry(transaction).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                return RedirectToAction("Index", "Households");
             }
             ViewBag.EnteredById = new SelectList(db.Users, "Id", "FirstName", transaction.EnteredById);
             ViewBag.HouseAccountId = new SelectList(db.HouseAccounts, "Id", "Name", transaction.HouseAccountId);
             ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name", transaction.TransactionTypeId);
+
             return View(transaction);
         }
 
@@ -126,7 +146,7 @@ namespace BudgetDestroyer.Controllers
             Transaction transaction = db.Transactions.Find(id);
             db.Transactions.Remove(transaction);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Households");
         }
 
         protected override void Dispose(bool disposing)

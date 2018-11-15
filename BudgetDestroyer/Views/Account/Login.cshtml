@@ -13,7 +13,6 @@
 
 @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "card", action = "", role = "form" }))
 {
-    @Html.AntiForgeryToken()
     <div class="card-body p-6">
         <div class="card-title">Login to your account</div>
 

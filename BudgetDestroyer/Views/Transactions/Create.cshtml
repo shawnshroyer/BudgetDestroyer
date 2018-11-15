@@ -4,8 +4,9 @@
 
 @{
     Layout = null;
-    ViewBag.HouseAccountId = ViewData["HouseAccountsId"];
+    ViewBag.HouseAccountId = ViewData["HouseAccountId"];
     ViewBag.TransactionTypeId = ViewData["TransactionTypes"];
+    ViewBag.BudgetItemId = ViewData["BudgetItemSelect"];
 }
 
 <div class="container">
@@ -23,7 +24,7 @@
 
                         <div class="card-body p-6">
                             <div class="card-title">
-                                <h4>Transaction</h4>
+                                <h4>Add Transaction</h4>
                                 <hr />
                             </div>
 
@@ -41,8 +42,8 @@
                             </div>
 
                             <div class="form-group">
-                                @Html.LabelFor(model => model.BudgetItemId, htmlAttributes: new { @class = "form-label" })
-                                @Html.EditorFor(model => model.BudgetItemId, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.LabelFor(model => model.BudgetItemId, "BudgetItemId", htmlAttributes: new { @class = "form-label" })
+                                @Html.DropDownList("BudgetItemId", null, htmlAttributes: new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.BudgetItemId, "", new { @class = "text-danger" })
                             </div>
 
@@ -53,29 +54,9 @@
                             </div>
 
                             <div class="form-group">
-                                @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "form-label" })
-                                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-                            </div>
-
-                            <div class="form-group">
                                 @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "form-label" })
                                 @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Reconciled, htmlAttributes: new { @class = "form-label" })
-                                <div class="checkbox">
-                                    @Html.EditorFor(model => model.Reconciled)
-                                    @Html.ValidationMessageFor(model => model.Reconciled, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.ReconciledAmount, htmlAttributes: new { @class = "form-label" })
-                                @Html.EditorFor(model => model.ReconciledAmount, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.ReconciledAmount, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="form-footer">

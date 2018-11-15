@@ -53,9 +53,11 @@ namespace BudgetDestroyer.Controllers
         {
             if (ModelState.IsValid)
             {
+                houseAccount.ReconciledBalace = 0.00M;
+
                 db.HouseAccounts.Add(houseAccount);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Households");
             }
 
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", houseAccount.HouseholdId);
@@ -74,7 +76,7 @@ namespace BudgetDestroyer.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", houseAccount.HouseholdId);
+            //ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", houseAccount.HouseholdId);
             return View(houseAccount);
         }
 
@@ -87,6 +89,8 @@ namespace BudgetDestroyer.Controllers
         {
             if (ModelState.IsValid)
             {
+
+
                 db.Entry(houseAccount).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
