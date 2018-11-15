@@ -15,6 +15,7 @@ namespace BudgetDestroyer.Models
 
         public string Name { get; set; }
         public string Descriptions { get; set; }
+        public decimal Amount { get; set; }
 
         public virtual Household Household { get; set; }
 

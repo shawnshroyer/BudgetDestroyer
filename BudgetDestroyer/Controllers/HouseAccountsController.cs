@@ -89,8 +89,6 @@ namespace BudgetDestroyer.Controllers
         {
             if (ModelState.IsValid)
             {
-
-
                 db.Entry(houseAccount).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -122,7 +120,7 @@ namespace BudgetDestroyer.Controllers
             HouseAccount houseAccount = db.HouseAccounts.Find(id);
             db.HouseAccounts.Remove(houseAccount);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Households");
         }
 
         protected override void Dispose(bool disposing)

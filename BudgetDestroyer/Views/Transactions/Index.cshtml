@@ -32,20 +32,20 @@
                         @foreach (var item in Model)
                         {
                         <tr>
-                            <td><span class="text-muted">@i</span></td>
-                            <td>
+                            <td class="text-center"><span class="text-muted">@i</span></td>
+                            <td class="text-center">
                                 @Convert.ToDateTime(Html.DisplayFor(modelItem => item.Date).ToString()).ToString("MM/dd/yyyy")
                             </td>
-                            <td>
+                            <td class="text-center">
                                 @Html.DisplayFor(modelItem => item.Amount)
                             </td>
-                            <td>
+                            <td class="text-center">
                                 @Html.DisplayFor(modelItem => item.EnteredBy.FirstName)
                             </td>
-                            <td>
+                            <td class="text-center">
                                 @Html.DisplayFor(modelItem => item.TransactionType.Name)
                             </td>
-                            <td>
+                            <td class="text-center">
                                 @Html.DisplayFor(modelItem => item.ReconciledAmount)
                             </td>
                             <td>

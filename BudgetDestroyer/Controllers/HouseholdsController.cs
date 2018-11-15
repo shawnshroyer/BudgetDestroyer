@@ -37,7 +37,7 @@ namespace BudgetDestroyer.Controllers
             var budgetItem = db.BudgetItems.Where(i => db.Budgets.Any(b => b.Id == i.BudgetId && b.HouseholdId == householdId));
             ViewBag.BudgetItemSelect= new SelectList(budgetItem, "Id", "Name");
 
-            db.BudgetItems.Where(i => db.Budgets.Any(b => b.Id == i.BudgetId && b.HouseholdId == householdId));
+            ViewBag.Budgets = db.Budgets.Where(b => b.HouseholdId == householdId).ToList();
 
             return View(db.Households.Find(householdId));
         }

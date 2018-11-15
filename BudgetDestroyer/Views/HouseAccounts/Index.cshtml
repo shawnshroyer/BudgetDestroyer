@@ -22,7 +22,7 @@
                             <th class="w-1">No.</th>
                             <th>Account</th>
                             <th>Balance</th>
-                            <th class="text-md-center">Reconciled<br />Balance</th>
+                            @*<th class="text-md-center">Reconciled<br />Balance</th>*@
                             <th></th>
                         </tr>
                     </thead>
@@ -32,16 +32,16 @@
                         {
                             @Html.HiddenFor(model => item.Id)
                         <tr>
-                            <td><span class="text-muted">@i</span></td>
-                            <td>
+                            <td class="text-center"><span class="text-muted">@i</span></td>
+                            <td class="text-center">
                                 @item.Name
                             </td>
-                            <td>
+                            <td class="text-center">
                                 @item.Balance
                             </td>
-                            <td>
+                            @*<td>
                                 @item.ReconciledBalace
-                            </td>
+                            </td>*@
                             @*<td>
                                 <span class="status-icon bg-success"></span> Paid
                             </td>
