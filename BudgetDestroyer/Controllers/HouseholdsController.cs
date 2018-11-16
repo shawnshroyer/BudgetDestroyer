@@ -34,8 +34,8 @@ namespace BudgetDestroyer.Controllers
             ViewBag.HouseAccountsSelect = new SelectList(ViewBag.HouseAccounts, "Id", "Name");
             ViewBag.TransactionTypes = new SelectList(db.TransactionTypes, "Id", "Name");
 
-            var budgetItem = db.BudgetItems.Where(i => db.Budgets.Any(b => b.Id == i.BudgetId && b.HouseholdId == householdId));
-            ViewBag.BudgetItemSelect= new SelectList(budgetItem, "Id", "Name");
+            ViewBag.BudgetItems = db.BudgetItems.Where(i => db.Budgets.Any(b => b.Id == i.BudgetId && b.HouseholdId == householdId)).ToList();
+            ViewBag.BudgetItemSelect= new SelectList(ViewBag.BudgetItems, "Id", "Name");
 
             ViewBag.Budgets = db.Budgets.Where(b => b.HouseholdId == householdId).ToList();
 

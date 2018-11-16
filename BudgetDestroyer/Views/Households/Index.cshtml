@@ -60,6 +60,8 @@
                 </div>
             </div>
             @Html.Partial("~/Views/Budgets/Index.cshtml", (List<Budget>)ViewBag.Budgets)
+
+            @Html.Partial("~/Views/BudgetItems/Index.cshtml", (List<BudgetItem>)ViewBag.BudgetItems)
         </div>
     </div>
 </div>
