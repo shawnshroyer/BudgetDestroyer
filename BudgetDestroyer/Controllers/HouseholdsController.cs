@@ -25,7 +25,6 @@ namespace BudgetDestroyer.Controllers
         public ActionResult Index()
         {
             var householdId = HouseholdHelper.GetUserHouseholdId(User.Identity.GetUserId());
-            ViewBag.HouseholdId = householdId;
 
             ViewBag.HouseAccounts = db.HouseAccounts.Where(h => h.HouseholdId == householdId).ToList();
             ViewBag.Transactions = db.Transactions.Where(t => db.HouseAccounts.Any(h =>
@@ -38,6 +37,7 @@ namespace BudgetDestroyer.Controllers
             ViewBag.BudgetItemSelect= new SelectList(ViewBag.BudgetItems, "Id", "Name");
 
             ViewBag.Budgets = db.Budgets.Where(b => b.HouseholdId == householdId).ToList();
+            ViewBag.BudgetId = new SelectList(ViewBag.Budgets, "Id", "Name");
 
             return View(db.Households.Find(householdId));
         }

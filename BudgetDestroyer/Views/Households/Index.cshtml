@@ -6,6 +6,8 @@
     UserRolesHelper userRolesHelper = new UserRolesHelper();
     HouseAccount houseAccount = new HouseAccount();
     Transaction transaction = new Transaction();
+    BudgetItem budgetItem = new BudgetItem();
+    Budget budget = new Budget();
 }
 
 <div class="my-3 my-md-5">
@@ -40,18 +42,18 @@
                                             <small class="d-block item-except text-sm text-muted h-1x">@houseUser.Email</small>
                                         </div>
                                         @*<div class="col-auto">
-                                        <!-- This can be used to allow Head of House to remove member -->
-                                        <div class="item-action dropdown">
-                                            <a href="javascript:void(0)" data-toggle="dropdown" class="icon" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(-181px, 20px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                                <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fe fe-tag"></i> Action </a>
-                                                <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fe fe-edit-2"></i> Another action </a>
-                                                <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fe fe-message-square"></i> Something else here</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fe fe-link"></i> Separated link</a>
-                                            </div>
-                                        </div>
-                                    </div>*@
+                                                <!-- This can be used to allow Head of House to remove member -->
+                                                <div class="item-action dropdown">
+                                                    <a href="javascript:void(0)" data-toggle="dropdown" class="icon" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(-181px, 20px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                        <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fe fe-tag"></i> Action </a>
+                                                        <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fe fe-edit-2"></i> Another action </a>
+                                                        <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fe fe-message-square"></i> Something else here</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fe fe-link"></i> Separated link</a>
+                                                    </div>
+                                                </div>
+                                            </div>*@
                                     </div>
                                 </li>
                             }
@@ -66,8 +68,10 @@
     </div>
 </div>
 
-@Html.Partial("~/Views/HouseAccounts/create.cshtml", houseAccount, new ViewDataDictionary { { "HouseholdId", ViewBag.HouseholdId } })
+@Html.Partial("~/Views/HouseAccounts/create.cshtml", houseAccount)
 @Html.Partial("~/Views/Transactions/create.cshtml", transaction, new ViewDataDictionary { { "HouseAccountId", ViewBag.HouseAccountsSelect }, { "TransactionTypes", ViewBag.TransactionTypes }, { "BudgetItemSelect", ViewBag.BudgetItemSelect } })
+@Html.Partial("~/Views/Budgets/create.cshtml", budget)
+@Html.Partial("~/Views/BudgetItems/create.cshtml", budgetItem, new ViewDataDictionary { { "BudgetId", ViewBag.BudgetId } })
 <div id="modalRender"></div>
 
 @section scripts
@@ -78,30 +82,30 @@
         });
     </script>
     @*<script>
-        $(".tranDeleteBtn").click(function () {
+            $(".tranDeleteBtn").click(function () {
 
-        });
-    </script>*@
+            });
+        </script>*@
 
     @* Would like to be able to edit a transaction via modal *@
     @*<script>
-        $(".tranEditBtn").click(function () {
-            let arg1 = event.target.getAttribute('data-edit');
-            @Html.Partial("~/Views/Transactions/Edit.cshtml", transaction, new ViewDataDictionary { { "HouseAccountsId", ViewBag.HouseAccountsSelect }, { "TransactionTypes", ViewBag.TransactionTypes } })
+            $(".tranEditBtn").click(function () {
+                let arg1 = event.target.getAttribute('data-edit');
+                @Html.Partial("~/Views/Transactions/Edit.cshtml", transaction, new ViewDataDictionary { { "HouseAccountsId", ViewBag.HouseAccountsSelect }, { "TransactionTypes", ViewBag.TransactionTypes } })
 
-            $.ajax({
-                url: "@Url.Action("Edit", "Transactions")/"+arg1,
-                type: "GET",
-                success: function (response, status, xhr) {
-                    $("modalRender").append(response);
-                    $("modalRender").html(response);
-                    //var jqContainer = appendContainer();
-                    //jqContainer.html(response);
-                }
+                $.ajax({
+                    url: "@Url.Action("Edit", "Transactions")/"+arg1,
+                    type: "GET",
+                    success: function (response, status, xhr) {
+                        $("modalRender").append(response);
+                        $("modalRender").html(response);
+                        //var jqContainer = appendContainer();
+                        //jqContainer.html(response);
+                    }
+                });
+                $('#editTranModal').modal('toggle');
             });
-            $('#editTranModal').modal('toggle');
-        });
-    </script>*@
+        </script>*@
 
 
 

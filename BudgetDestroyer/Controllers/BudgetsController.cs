@@ -6,7 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using BudgetDestroyer.Helpers;
 using BudgetDestroyer.Models;
+using Microsoft.AspNet.Identity;
 
 namespace BudgetDestroyer.Controllers
 {
@@ -53,6 +55,8 @@ namespace BudgetDestroyer.Controllers
         {
             if (ModelState.IsValid)
             {
+                budget.HouseholdId = HouseholdHelper.GetUserHouseholdId(User.Identity.GetUserId()).Value;
+
                 db.Budgets.Add(budget);
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -6,7 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using BudgetDestroyer.Helpers;
 using BudgetDestroyer.Models;
+using Microsoft.AspNet.Identity;
 
 namespace BudgetDestroyer.Controllers
 {
@@ -53,6 +55,7 @@ namespace BudgetDestroyer.Controllers
         {
             if (ModelState.IsValid)
             {
+                houseAccount.HouseholdId = HouseholdHelper.GetUserHouseholdId(User.Identity.GetUserId()).Value;
                 houseAccount.ReconciledBalace = 0.00M;
 
                 db.HouseAccounts.Add(houseAccount);
