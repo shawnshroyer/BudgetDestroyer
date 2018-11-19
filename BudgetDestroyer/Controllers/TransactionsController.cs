@@ -229,6 +229,31 @@ namespace BudgetDestroyer.Controllers
         //    return View(transaction);
         //}
 
+        // POST: Transactions/Void/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Void(int id)
+        {
+            Transaction transaction = db.Transactions.Find(id);
+
+            if (transaction.TransactionTypeId == 3) //Deposit
+            {
+                transactionsHelper.SubtractFromAccount(transaction.HouseAccountId, transaction.Amount);
+                transactionsHelper.SubtractFromBudgetItem(transaction.BudgetItemId, transaction.Amount);
+            }
+            else //Withdraw
+            {
+                transactionsHelper.AddToAccount(transaction.HouseAccountId, transaction.Amount);
+                transactionsHelper.AddToBudgetItem(transaction.BudgetItemId, transaction.Amount);
+            }
+
+            transaction.VoidTransaction = true;
+
+            db.Entry(transaction).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index", "Households");
+        }
+
         // POST: Transactions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
