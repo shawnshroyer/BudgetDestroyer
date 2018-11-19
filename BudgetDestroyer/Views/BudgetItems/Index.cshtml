@@ -24,7 +24,7 @@
                         @Html.DisplayNameFor(model => model.Description)
                     </th>*@
                     <th></th>
-                    <th></th>
+                    @*<th></th>*@
                 </tr>
 
                 @foreach (var item in Model)
@@ -40,15 +40,15 @@
                             @Html.DisplayFor(modelItem => item.Description)
                         </td>*@
                         <td>
-                            <button href="@Url.Action("Edit", "BudgetItems", new { id = item.Id })" class="btn-outline-primary fa fa-edit"></button>
+                            <a href="@Url.Action("Edit", "BudgetItems", new { id = item.Id })" class=" btn btn-outline-primary fa fa-edit" />
                         </td>
-                        <td>
+                        @*<td>
                             @using (Html.BeginForm("Delete", "BudgetItems", new { id = item.Id }))
                             {
                                 @Html.AntiForgeryToken()
                                 <button type="submit" class="btn-outline-danger fa fa-trash"></button>
                             }
-                        </td>
+                        </td>*@
                     </tr>
                 }
             </table>

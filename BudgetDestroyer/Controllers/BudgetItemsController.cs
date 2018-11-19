@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BudgetDestroyer.Models;
+using BudgetDestroyer.Helpers;
+using Microsoft.AspNet.Identity;
 
 namespace BudgetDestroyer.Controllers
 {
@@ -14,6 +16,7 @@ namespace BudgetDestroyer.Controllers
     public class BudgetItemsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private HouseholdHelper householdHelper = new HouseholdHelper();
 
         //        // GET: BudgetItems
         //        public ActionResult Index()
@@ -55,7 +58,7 @@ namespace BudgetDestroyer.Controllers
             {
                 db.BudgetItems.Add(budgetItem);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Households");
             }
 
             ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name", budgetItem.BudgetId);
@@ -69,7 +72,9 @@ namespace BudgetDestroyer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             BudgetItem budgetItem = db.BudgetItems.Find(id);
+
             if (budgetItem == null)
             {
                 return HttpNotFound();
@@ -110,16 +115,16 @@ namespace BudgetDestroyer.Controllers
         //            return View(budgetItem);
         //        }
 
-        // POST: BudgetItems/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            BudgetItem budgetItem = db.BudgetItems.Find(id);
-            db.BudgetItems.Remove(budgetItem);
-            db.SaveChanges();
-            return RedirectToAction("Index", "Households");
-        }
+        //// POST: BudgetItems/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    BudgetItem budgetItem = db.BudgetItems.Find(id);
+        //    db.BudgetItems.Remove(budgetItem);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index", "Households");
+        //}
 
         protected override void Dispose(bool disposing)
         {

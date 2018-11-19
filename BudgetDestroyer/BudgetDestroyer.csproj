@@ -206,6 +206,7 @@
     <Compile Include="Helpers\HouseholdHelper.cs" />
     <Compile Include="Helpers\NotificationHelper.cs" />
     <Compile Include="Helpers\StringUtilities.cs" />
+    <Compile Include="Helpers\TransactionsHelper.cs" />
     <Compile Include="Helpers\UploadValidator.cs" />
     <Compile Include="Helpers\UserRolesHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />

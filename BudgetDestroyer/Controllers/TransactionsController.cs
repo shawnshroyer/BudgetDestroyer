@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BudgetDestroyer.Models;
+using BudgetDestroyer.Helpers;
 
 namespace BudgetDestroyer.Controllers
 {
@@ -14,6 +15,7 @@ namespace BudgetDestroyer.Controllers
     public class TransactionsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private TransactionsHelper transactionsHelper = new TransactionsHelper();
 
         // GET: Transactions
         public ActionResult Index()
@@ -60,6 +62,23 @@ namespace BudgetDestroyer.Controllers
                 transaction.Reconciled = false;
                 transaction.ReconciledAmount = 0.00M;
                 transaction.Date = DateTime.Now;
+
+                if (transaction.TransactionTypeId == 3) //Deposit
+                {
+                    transactionsHelper.AddToAccount(transaction.HouseAccountId, transaction.Amount);
+                    transactionsHelper.AddToBudgetItem(transaction.BudgetItemId, transaction.Amount);
+                }
+                else if (transaction.TransactionTypeId == 4) //Withdraw
+                {
+                    //If amount is a negative number then the called functions will act accordingly.
+                    transactionsHelper.SubtractFromAccount(transaction.HouseAccountId, transaction.Amount);
+                    transactionsHelper.SubtractFromBudgetItem(transaction.BudgetItemId, transaction.Amount);
+
+                    if (transaction.Amount > 0)
+                    {
+                        transaction.Amount *= -1;
+                    }
+                }
 
                 db.Transactions.Add(transaction);
                 db.SaveChanges();
@@ -110,6 +129,78 @@ namespace BudgetDestroyer.Controllers
                         transaction.Reconciled = true;
                     }
                 }
+                var oldTransaction = db.Transactions.AsNoTracking().FirstOrDefault(t => t.Id == transaction.Id);
+
+                if (transaction.TransactionTypeId == 3 && transaction.TransactionTypeId != oldTransaction.TransactionTypeId) //Deposit
+                {
+                    //Logic change from withdraw to deposit (run add old ammount add new mount)
+                    var modAmount = transaction.Amount + oldTransaction.Amount;
+
+                    transactionsHelper.AddToAccount(transaction.HouseAccountId, modAmount);
+                    transactionsHelper.AddToBudgetItem(transaction.BudgetItemId, modAmount);
+
+                    transaction.Amount = oldTransaction.Amount;
+                }
+                else if (transaction.TransactionTypeId == 4 && transaction.TransactionTypeId != oldTransaction.TransactionTypeId) //Withdraw
+                {
+                    //Logic change from deposit to withdraw (run sub old and then new ammount)
+                    decimal modAmount = transaction.Amount;
+                    if (transaction.Amount < 0)
+                    {
+                        oldTransaction.Amount *= -1;
+                        modAmount += oldTransaction.Amount;
+                    }
+                    else
+                    {
+                        modAmount += oldTransaction.Amount;
+                        modAmount *= -1;
+
+                        transaction.Amount *= -1;
+                    }
+
+                    //These will properly handle negative or poitive numbers.
+                    transactionsHelper.SubtractFromAccount(transaction.HouseAccountId, modAmount);
+                    transactionsHelper.SubtractFromBudgetItem(transaction.BudgetItemId, modAmount);
+                }
+                else if (transaction.TransactionTypeId == 3 && transaction.Amount != oldTransaction.Amount)  //Deposit
+                {
+                    if (transaction.Amount > oldTransaction.Amount)
+                    {
+                        var modAmount = transaction.Amount - oldTransaction.Amount;
+                        transactionsHelper.AddToAccount(transaction.HouseAccountId, modAmount);
+                        transactionsHelper.AddToBudgetItem(transaction.BudgetItemId, modAmount);
+                    }
+                    else if (transaction.Amount < oldTransaction.Amount)
+                    {
+                        var modAmount = oldTransaction.Amount - transaction.Amount;
+                        transactionsHelper.SubtractFromAccount(transaction.HouseAccountId, modAmount);
+                        transactionsHelper.SubtractFromBudgetItem(transaction.BudgetItemId, modAmount);
+                    }
+                }
+                else if (transaction.TransactionTypeId == 4 && transaction.Amount != oldTransaction.Amount) //Withdraw
+                {
+                    if (transaction.Amount > 0)
+                    {
+                        transaction.Amount *= -1;
+                    }
+
+                    if (transaction.Amount > oldTransaction.Amount)
+                    {
+                        var modAmount = oldTransaction.Amount - transaction.Amount;
+                        modAmount *= -1; //Add helpers don't turn negative numbers positive
+
+                        transactionsHelper.AddToAccount(transaction.HouseAccountId, modAmount);
+                        transactionsHelper.AddToBudgetItem(transaction.BudgetItemId, modAmount);
+                    }
+                    else if (transaction.Amount < oldTransaction.Amount)
+                    {
+                        var modAmount = oldTransaction.Amount - transaction.Amount;
+
+                        transactionsHelper.SubtractFromAccount(transaction.HouseAccountId, modAmount);
+                        transactionsHelper.SubtractFromBudgetItem(transaction.BudgetItemId, modAmount);
+                    }
+                }
+
 
                 db.Entry(transaction).State = EntityState.Modified;
                 db.SaveChanges();
@@ -123,20 +214,20 @@ namespace BudgetDestroyer.Controllers
             return View(transaction);
         }
 
-        // GET: Transactions/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Transaction transaction = db.Transactions.Find(id);
-            if (transaction == null)
-            {
-                return HttpNotFound();
-            }
-            return View(transaction);
-        }
+        //// GET: Transactions/Delete/5
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Transaction transaction = db.Transactions.Find(id);
+        //    if (transaction == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(transaction);
+        //}
 
         // POST: Transactions/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -144,6 +235,18 @@ namespace BudgetDestroyer.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Transaction transaction = db.Transactions.Find(id);
+
+            if (transaction.TransactionTypeId == 3) //Deposit
+            {
+                transactionsHelper.SubtractFromAccount(transaction.HouseAccountId, transaction.Amount);
+                transactionsHelper.SubtractFromBudgetItem(transaction.BudgetItemId, transaction.Amount);
+            }
+            else //Withdraw
+            {
+                transactionsHelper.AddToAccount(transaction.HouseAccountId, transaction.Amount);
+                transactionsHelper.AddToBudgetItem(transaction.BudgetItemId, transaction.Amount);
+            }
+
             db.Transactions.Remove(transaction);
             db.SaveChanges();
             return RedirectToAction("Index", "Households");

@@ -114,16 +114,16 @@ namespace BudgetDestroyer.Controllers
         //            return View(budget);
         //        }
 
-        // POST: Budgets/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Budget budget = db.Budgets.Find(id);
-            db.Budgets.Remove(budget);
-            db.SaveChanges();
-            return RedirectToAction("Index", "Households");
-        }
+        //// POST: Budgets/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Budget budget = db.Budgets.Find(id);
+        //    db.Budgets.Remove(budget);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index", "Households");
+        //}
 
         protected override void Dispose(bool disposing)
         {
