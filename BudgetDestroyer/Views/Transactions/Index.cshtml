@@ -1,4 +1,5 @@
-﻿@model IEnumerable<BudgetDestroyer.Models.Transaction>
+﻿@using BudgetDestroyer.Models
+@model IEnumerable<BudgetDestroyer.Models.Transaction>
 
 @{
     Layout = null;
@@ -21,8 +22,9 @@
                             <th class="w-1">No.</th>
                             <th>Date</th>
                             <th>Amount</th>
+                            <th>Name</th>
                             <th>Member</th>
-                            <th>Type</th>
+                            @*<th>Type</th>*@
                             @*<th lass="text-md-center">Reconciled<br />Amount</th>*@
                             <th></th>
                             <th></th>
@@ -33,53 +35,60 @@
                         @{int i = 1;}
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td class="text-center"><span class="text-muted">@i</span></td>
-                                <td class="text-center">
-                                    @Convert.ToDateTime(Html.DisplayFor(modelItem => item.Date).ToString()).ToString("MM/dd/yyyy")
+                        <tr>
+                            <td class="text-center"><span class="text-muted">@i</span></td>
+                            <td class="text-center">
+                                @Convert.ToDateTime(Html.DisplayFor(modelItem => item.Date).ToString()).ToString("MM/dd/yyyy")
+                            </td>
+                            <td class="text-center">
+                                @Html.DisplayFor(modelItem => item.Amount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            @*<td class="text-center">
+                                @Html.DisplayFor(modelItem => item.TransactionType.Name)
+                            </td>*@
+                            <td class="text-center">
+                                @Html.DisplayFor(modelItem => item.EnteredBy.FirstName)
+                            </td>
+                            @*<td class="text-center">
+                                @Html.DisplayFor(modelItem => item.ReconciledAmount)
+                            </td>*@
+                            @if (!item.VoidTransaction)
+                            {
+                                <td>
+                                    <a href="@Url.Action("Edit", "Transactions", new { id = item.Id })">
+                                        <button class="btn btn-outline-primary btn-sm btnSpace float-right" @*data-edit="@item.Id" data-toggle="modal" data-target="#editTranModal"*@>
+                                            <i class="fa fa-edit m-right-xs"></i> Edit
+                                        </button>
+                                    </a>
                                 </td>
-                                <td class="text-center">
-                                    @Html.DisplayFor(modelItem => item.Amount)
+                                <td>
+                                    @using (Html.BeginForm("Void", "Transactions", new { id = item.Id }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-outline-warning btn-sm btnSpace float-right tranDeleteBtn" @*data-delete="@item.Id" data-toggle="modal" data-target="#deleteTranModal"*@>
+                                            <i class="fa fa-remove m-right-xs"></i> Void
+                                        </button>
+                                    }
                                 </td>
-                                <td class="text-center">
-                                    @Html.DisplayFor(modelItem => item.EnteredBy.FirstName)
+                                <td>
+                                    @using (Html.BeginForm("Delete", "Transactions", new { id = item.Id }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-outline-danger btn-sm btnSpace float-right tranDeleteBtn" @*data-delete="@item.Id" data-toggle="modal" data-target="#deleteTranModal"*@>
+                                            <i class="fa fa-trash m-right-xs"></i> Delete
+                                        </button>
+                                    }
                                 </td>
-                                <td class="text-center">
-                                    @Html.DisplayFor(modelItem => item.TransactionType.Name)
-                                </td>
-                                @*<td class="text-center">
-                                    @Html.DisplayFor(modelItem => item.ReconciledAmount)
-                                </td>*@
-                                @if (!item.VoidTransaction)
-                                {
-                                    <td>
-                                        <a href="@Url.Action("Edit", "Transactions", new { id = item.Id })">
-                                            <button class="btn btn-outline-primary btn-sm btnSpace float-right" @*data-edit="@item.Id" data-toggle="modal" data-target="#editTranModal"*@>
-                                                <i class="fa fa-edit m-right-xs"></i> Edit
-                                            </button>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        @using (Html.BeginForm("Void", "Transactions", new { id = item.Id }))
-                                        {
-                                            @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn btn-outline-warning btn-sm btnSpace float-right tranDeleteBtn" @*data-delete="@item.Id" data-toggle="modal" data-target="#deleteTranModal"*@>
-                                                <i class="fa fa-remove m-right-xs"></i> Void
-                                            </button>
-                                        }
-                                    </td>
-                                    <td>
-                                        @using (Html.BeginForm("Delete", "Transactions", new { id = item.Id }))
-                                        {
-                                            @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn btn-outline-danger btn-sm btnSpace float-right tranDeleteBtn" @*data-delete="@item.Id" data-toggle="modal" data-target="#deleteTranModal"*@>
-                                                <i class="fa fa-trash m-right-xs"></i> Delete
-                                            </button>
-                                        }
-                                    </td>
-                                }
-                                else { <td class="text-center">VOIDED</td><td class="text-center">VOIDED</td><td class="text-center">VOIDED</td>}
-                            </tr>
+                            }
+                            else
+                            {
+                                <td class="text-center">VOIDED</td>
+                                <td class="text-center">VOIDED</td>
+                                <td class="text-center">VOIDED</td>}
+                        </tr>
                             i++;
                         }
                     </tbody>

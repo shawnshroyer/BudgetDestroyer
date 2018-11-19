@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using BudgetDestroyer.Extensions;
 using BudgetDestroyer.Helpers;
 using BudgetDestroyer.Models;
 using Microsoft.AspNet.Identity;
@@ -67,6 +68,7 @@ namespace BudgetDestroyer.Controllers
         }
 
         // GET: Budgets/Edit/5
+        [BudgetsAuthorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)

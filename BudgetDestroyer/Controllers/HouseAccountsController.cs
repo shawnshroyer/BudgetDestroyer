@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using BudgetDestroyer.Extensions;
 using BudgetDestroyer.Helpers;
 using BudgetDestroyer.Models;
 using Microsoft.AspNet.Identity;
@@ -17,34 +18,34 @@ namespace BudgetDestroyer.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: HouseAccounts
-        public ActionResult Index()
-        {
-            var HouseAccounts = db.HouseAccounts.Include(h => h.Household);
-            return View(HouseAccounts.ToList());
-        }
+        //// GET: HouseAccounts
+        //public ActionResult Index()
+        //{
+        //    var HouseAccounts = db.HouseAccounts.Include(h => h.Household);
+        //    return View(HouseAccounts.ToList());
+        //}
 
-        // GET: HouseAccounts/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            HouseAccount houseAccount = db.HouseAccounts.Find(id);
-            if (houseAccount == null)
-            {
-                return HttpNotFound();
-            }
-            return View(houseAccount);
-        }
+        //// GET: HouseAccounts/Details/5
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    HouseAccount houseAccount = db.HouseAccounts.Find(id);
+        //    if (houseAccount == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(houseAccount);
+        //}
 
-        // GET: HouseAccounts/Create
-        public ActionResult Create()
-        {
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
-            return View();
-        }
+        //// GET: HouseAccounts/Create
+        //public ActionResult Create()
+        //{
+        //    ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
+        //    return View();
+        //}
 
         // POST: HouseAccounts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -68,12 +69,14 @@ namespace BudgetDestroyer.Controllers
         }
 
         // GET: HouseAccounts/Edit/5
+        [AccountsAuthorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             HouseAccount houseAccount = db.HouseAccounts.Find(id);
             if (houseAccount == null)
             {
@@ -100,23 +103,24 @@ namespace BudgetDestroyer.Controllers
             return View(houseAccount);
         }
 
-        // GET: HouseAccounts/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            HouseAccount houseAccount = db.HouseAccounts.Find(id);
-            if (houseAccount == null)
-            {
-                return HttpNotFound();
-            }
-            return View(houseAccount);
-        }
+        //// GET: HouseAccounts/Delete/5
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    HouseAccount houseAccount = db.HouseAccounts.Find(id);
+        //    if (houseAccount == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(houseAccount);
+        //}
 
         // POST: HouseAccounts/Delete/5
         [HttpPost, ActionName("Delete")]
+        [AccountsAuthorize]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {

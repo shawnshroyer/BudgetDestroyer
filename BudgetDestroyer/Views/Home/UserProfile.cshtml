@@ -16,7 +16,7 @@
                         <img class="card-profile-img" src="~/Avatar/default.png">
                         <h3 class="mb-3">@User.Identity.FullName()</h3>
                         <p class="mb-4">
-                            Big belly rude boy, million dollar hustler. Unemployed.
+                            @User.Identity.DisplayName()
                         </p>
                         <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#profileModal">
                             <i class="fa fa-edit m-right-xs"></i> Edit Profile / Change Password

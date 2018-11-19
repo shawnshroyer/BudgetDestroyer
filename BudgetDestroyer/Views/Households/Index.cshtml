@@ -78,7 +78,9 @@
 {
     <script>
         $(function () {
-            $('#transactionTable').DataTable();
+            $('#transactionTable').DataTable({
+                "order": [[1, "desc"]]
+            });
         });
     </script>
 

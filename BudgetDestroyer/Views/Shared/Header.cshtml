@@ -202,8 +202,8 @@
             </div>
 
             <div class="modal-body">
-                @*@using (Html.BeginForm("Leaving", "Households", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "inviteForm" }))
-                    {
+                @using (Html.BeginForm("Leaving", "Households", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "LeaveForm" }))
+                {
                     <div class="form-horizontal">
                         @Html.AntiForgeryToken()
 
@@ -213,9 +213,7 @@
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
-                    }*@
-
-                @Html.ActionLink("Leave", "Leaving", "Households", null, new { @class = "btn btn-danger btn-block" })
+                }
             </div>
         </div>
     </div>
