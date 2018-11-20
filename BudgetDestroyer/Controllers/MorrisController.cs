@@ -30,15 +30,6 @@ namespace BudgetDestroyer.Controllers
                 return Content(JsonConvert.SerializeObject(budgetData), "application/json");
             }
 
-            
-
-            foreach (var budget in budgets) {
-                foreach(var item in budgetItems)
-                {
-
-                }
-            }
-
             //var transactions = db.Transactions.Include(t => t.EnteredBy).Include(t => t.HouseAccount).Include(t => t.TransactionType);
 
             foreach (var budget in budgets)
@@ -59,6 +50,45 @@ namespace BudgetDestroyer.Controllers
                     Label = budget.Name,
                     Target = (budget.Amount + amount),
                     Actual = budget.Amount
+                });
+            }
+
+            return Content(JsonConvert.SerializeObject(budgetData), "application/json");
+        }
+
+        public ActionResult GetBudgetItemDataForBarChart()
+        {
+            var budgetData = new List<MorrisBudgetBar>();
+            var userId = User.Identity.GetUserId();
+            var houseId = db.Users.Find(userId).HouseholdId;
+            //var budgets = db.Households.Find(houseId).Budgets.ToList();
+            var budgetItems = db.BudgetItems.Where(i => db.Budgets.Any(b => b.Id == i.BudgetId && b.HouseholdId == houseId)).ToList();
+
+            if (houseId == null)
+            {
+                return Content(JsonConvert.SerializeObject(budgetData), "application/json");
+            }
+
+            //var transactions = db.Transactions.Include(t => t.EnteredBy).Include(t => t.HouseAccount).Include(t => t.TransactionType);
+
+            foreach (var item in budgetItems)
+            {
+                var temp = db.Transactions.Where(t => t.BudgetItemId == item.Id);
+                decimal amount = 0;
+                foreach (var tempTran in temp)
+                {
+                    if (tempTran.Amount < 0)
+                    {
+                        amount += tempTran.Amount;
+                    }
+                }
+                amount *= -1;
+
+                budgetData.Add(new MorrisBudgetBar
+                {
+                    Label = item.Name,
+                    Target = (item.Amount + amount),
+                    Actual = item.Amount
                 });
             }
 
