@@ -14,6 +14,7 @@ namespace BudgetDestroyer.Helpers
 
         public static int? GetUserHouseholdId(string UserId)
         {
+            //Add as no tracking.
             int? householdId = db.Users.Find(UserId).HouseholdId;
 
             return householdId;

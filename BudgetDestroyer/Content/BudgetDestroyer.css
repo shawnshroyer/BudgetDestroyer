@@ -11,3 +11,18 @@
     font-weight: bold;
     text-align: center;
 }
+
+#budgetChart
+{
+    width: 100%;
+    height: 340px;
+}
+
+#budgetItemChart {
+    width: 100%;
+    height: 340px;
+}
+
+.height-400 {
+    max-height: 400px;
+}

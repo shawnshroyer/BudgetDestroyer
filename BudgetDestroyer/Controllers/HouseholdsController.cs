@@ -57,11 +57,11 @@ namespace BudgetDestroyer.Controllers
         //    return View(household);
         //}
 
-        //// GET: Households/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
+        // GET: Households/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
 
         // POST: Households/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -234,7 +234,6 @@ namespace BudgetDestroyer.Controllers
 
                 db.Households.Remove(household);
                 db.SaveChanges();
-
             }
 
             return RedirectToAction("Index", "Home");

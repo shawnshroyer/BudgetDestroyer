@@ -39,7 +39,7 @@ namespace BudgetDestroyer.Controllers
                 decimal amount = 0;
                 foreach (var tempTran in temp)
                 {
-                    if (tempTran.Amount < 0)
+                    if (tempTran.Amount < 0 && !tempTran.VoidTransaction)
                     {
                         amount += tempTran.Amount;
                     }
@@ -79,7 +79,7 @@ namespace BudgetDestroyer.Controllers
                 decimal amount = 0;
                 foreach (var tempTran in temp)
                 {
-                    if (tempTran.Amount < 0)
+                    if (tempTran.Amount < 0 && !tempTran.VoidTransaction)
                     {
                         amount += tempTran.Amount;
                     }
