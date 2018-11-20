@@ -705,6 +705,7 @@
     <Content Include="assets\plugins\iconfonts\fonts\weathericons\weathericons-regular-webfont.woff2" />
     <Content Include="private.config" />
     <None Include="Properties\PublishProfiles\BudgetDestroyer - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\BudgetDestroyer1 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\Households.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />

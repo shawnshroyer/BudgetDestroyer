@@ -22,47 +22,47 @@
                         @Html.AntiForgeryToken()
                         @Html.Hidden("EnteredById", User.Identity.GetUserId())
 
-                        <div class="card-body p-6">
-                            <div class="card-title">
-                                <h4>Add Transaction</h4>
-                                <hr />
-                            </div>
-
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.HouseAccountId, "HouseAccountId", htmlAttributes: new { @class = "form-label" })
-                                @Html.DropDownList("HouseAccountId", null, htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.HouseAccountId, "", new { @class = "text-danger" })
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.TransactionTypeId, "TransactionTypeId", htmlAttributes: new { @class = "form-label" })
-                                @Html.DropDownList("TransactionTypeId", null, htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.TransactionTypeId, "", new { @class = "text-danger" })
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.BudgetItemId, "BudgetItemId", htmlAttributes: new { @class = "form-label" })
-                                @Html.DropDownList("BudgetItemId", null, htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.BudgetItemId, "", new { @class = "text-danger" })
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "form-label" })
-                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "form-label" })
-                                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
-                            </div>
-
-                            <div class="form-footer">
-                                <input type="submit" value="Create" class="btn btn-primary btn-block" />
-                            </div>
+                    <div class="card-body p-6">
+                        <div class="card-title">
+                            <h4>Add Transaction</h4>
+                            <hr />
                         </div>
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.HouseAccountId, "HouseAccountId", htmlAttributes: new { @class = "form-label" })
+                            @Html.DropDownList("HouseAccountId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.HouseAccountId, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TransactionTypeId, "TransactionTypeId", htmlAttributes: new { @class = "form-label" })
+                            @Html.DropDownList("TransactionTypeId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.TransactionTypeId, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BudgetItemId, "BudgetItemId", htmlAttributes: new { @class = "form-label" })
+                            @Html.DropDownList("BudgetItemId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.BudgetItemId, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-footer">
+                            <input type="submit" value="Create" class="btn btn-primary btn-block" />
+                        </div>
+                    </div>
                     }
                 </div>
                 <div class="modal-footer">

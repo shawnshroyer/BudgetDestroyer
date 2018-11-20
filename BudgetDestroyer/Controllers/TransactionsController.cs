@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using BudgetDestroyer.Models;
 using BudgetDestroyer.Helpers;
+using BudgetDestroyer.Extensions;
+using Microsoft.AspNet.Identity;
 
 namespace BudgetDestroyer.Controllers
 {
@@ -24,20 +26,20 @@ namespace BudgetDestroyer.Controllers
             return View(transactions.ToList());
         }
 
-        // GET: Transactions/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Transaction transaction = db.Transactions.Find(id);
-            if (transaction == null)
-            {
-                return HttpNotFound();
-            }
-            return View(transaction);
-        }
+        //// GET: Transactions/Details/5
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Transaction transaction = db.Transactions.Find(id);
+        //    if (transaction == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(transaction);
+        //}
 
         // GET: Transactions/Create
         public ActionResult Create()
@@ -55,7 +57,7 @@ namespace BudgetDestroyer.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,HouseAccountId,TransactionTypeId,BudgetItemId,EnteredById,Discription,Date,Amount,Reconciled,ReconciledAmount")] Transaction transaction)
+        public ActionResult Create([Bind(Include = "Id,Name,HouseAccountId,TransactionTypeId,BudgetItemId,EnteredById,Discription,Date,Amount,Reconciled,ReconciledAmount")] Transaction transaction)
         {
             if (ModelState.IsValid)
             {
@@ -93,21 +95,29 @@ namespace BudgetDestroyer.Controllers
         }
 
         // GET: Transactions/Edit/5
+        [TransactionAuthorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Transaction transaction = db.Transactions.Find(id);
+
             if (transaction == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.EnteredById = new SelectList(db.Users, "Id", "FirstName", transaction.EnteredById);
-            ViewBag.HouseAccountId = new SelectList(db.HouseAccounts, "Id", "Name", transaction.HouseAccountId);
+            var userHousholdId = HouseholdHelper.GetUserHouseholdId(User.Identity.GetUserId());
+            var enteredById = db.Users.Where(u => u.HouseholdId == userHousholdId);
+            var houseAccountId = db.HouseAccounts.Where(a => a.HouseholdId == userHousholdId);
+            var budgetItems = db.BudgetItems.Where(i => db.Budgets.Any(b => b.Id == i.BudgetId && b.HouseholdId == userHousholdId));
+
+            ViewBag.EnteredById = new SelectList(enteredById, "Id", "FirstName", transaction.EnteredById);
+            ViewBag.HouseAccountId = new SelectList(houseAccountId, "Id", "Name", transaction.HouseAccountId);
             ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name", transaction.TransactionTypeId);
-            ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name", transaction.BudgetItemId);
+            ViewBag.BudgetItemId = new SelectList(budgetItems, "Id", "Name", transaction.BudgetItemId);
 
             return View(transaction);
         }
@@ -117,7 +127,7 @@ namespace BudgetDestroyer.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,HouseAccountId,TransactionTypeId,BudgetItemId,EnteredById,Discription,Date,Amount,Reconciled,ReconciledAmount")] Transaction transaction)
+        public ActionResult Edit([Bind(Include = "Id,Name,HouseAccountId,TransactionTypeId,BudgetItemId,EnteredById,Discription,Date,Amount,Reconciled,ReconciledAmount")] Transaction transaction)
         {
             if (ModelState.IsValid)
             {
@@ -207,6 +217,7 @@ namespace BudgetDestroyer.Controllers
 
                 return RedirectToAction("Index", "Households");
             }
+
             ViewBag.EnteredById = new SelectList(db.Users, "Id", "FirstName", transaction.EnteredById);
             ViewBag.HouseAccountId = new SelectList(db.HouseAccounts, "Id", "Name", transaction.HouseAccountId);
             ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name", transaction.TransactionTypeId);
@@ -243,8 +254,8 @@ namespace BudgetDestroyer.Controllers
             }
             else //Withdraw
             {
-                transactionsHelper.AddToAccount(transaction.HouseAccountId, transaction.Amount);
-                transactionsHelper.AddToBudgetItem(transaction.BudgetItemId, transaction.Amount);
+                transactionsHelper.AddToAccount(transaction.HouseAccountId, (transaction.Amount * -1));
+                transactionsHelper.AddToBudgetItem(transaction.BudgetItemId, (transaction.Amount * -1));
             }
 
             transaction.VoidTransaction = true;
@@ -268,8 +279,8 @@ namespace BudgetDestroyer.Controllers
             }
             else //Withdraw
             {
-                transactionsHelper.AddToAccount(transaction.HouseAccountId, transaction.Amount);
-                transactionsHelper.AddToBudgetItem(transaction.BudgetItemId, transaction.Amount);
+                transactionsHelper.AddToAccount(transaction.HouseAccountId, (transaction.Amount * -1));
+                transactionsHelper.AddToBudgetItem(transaction.BudgetItemId, (transaction.Amount * -1));
             }
 
             db.Transactions.Remove(transaction);

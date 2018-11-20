@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Web.Routing;
+using BudgetDestroyer.Helpers;
 
 namespace BudgetDestroyer.Extensions
 {
@@ -24,10 +25,13 @@ namespace BudgetDestroyer.Extensions
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Home" }, { "action", "Oops" } });
             }
 
-            var householdId = Convert.ToInt32(filterContext.ActionParameters.SingleOrDefault(p => p.Key == "id").Value);
+            var transactionId = Convert.ToInt32(filterContext.ActionParameters.SingleOrDefault(p => p.Key == "id").Value);
+            var transaction = db.Transactions.AsNoTracking().Where(t => t.Id == transactionId).FirstOrDefault();
+            var transactionUserId = transaction.EnteredById;
+
             int? userHouseholdId = db.Users.Find(userId).HouseholdId;
 
-            if (userHouseholdId != householdId)
+            if (HouseholdHelper.GetUserHouseholdId(transactionUserId) != userHouseholdId)
             {
                 filterContext.Controller.TempData.Add("oopsMsg", "You have to be logged in and authorized to view this Household.");
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Home" }, { "action", "Oops" } });

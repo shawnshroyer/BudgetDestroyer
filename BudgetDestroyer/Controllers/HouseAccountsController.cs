@@ -97,7 +97,7 @@ namespace BudgetDestroyer.Controllers
             {
                 db.Entry(houseAccount).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Households");
             }
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", houseAccount.HouseholdId);
             return View(houseAccount);

@@ -52,7 +52,7 @@ namespace BudgetDestroyer.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,HouseholdId,Name,Descriptions")] Budget budget)
+        public ActionResult Create([Bind(Include = "Id,HouseholdId,Name,Descriptions,Amount")] Budget budget)
         {
             if (ModelState.IsValid)
             {
@@ -60,7 +60,7 @@ namespace BudgetDestroyer.Controllers
 
                 db.Budgets.Add(budget);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Households");
             }
 
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", budget.HouseholdId);
@@ -89,7 +89,7 @@ namespace BudgetDestroyer.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,HouseholdId,Name,Descriptions")] Budget budget)
+        public ActionResult Edit([Bind(Include = "Id,HouseholdId,Name,Descriptions,Amount")] Budget budget)
         {
             if (ModelState.IsValid)
             {

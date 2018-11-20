@@ -53,7 +53,7 @@ namespace BudgetDestroyer.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,BudgetId,Amount,Description")] BudgetItem budgetItem)
+        public ActionResult Create([Bind(Include = "Id,Name,BudgetId,Amount,Description")] BudgetItem budgetItem)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +81,9 @@ namespace BudgetDestroyer.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name", budgetItem.BudgetId);
+
+            var budgetList = db.Budgets.Where(b => b.Id == budgetItem.BudgetId);
+            ViewBag.BudgetId = new SelectList(budgetList, "Id", "Name", budgetItem.BudgetId);
             return View(budgetItem);
         }
 
@@ -90,7 +92,7 @@ namespace BudgetDestroyer.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,BudgetId,Amount,Description")] BudgetItem budgetItem)
+        public ActionResult Edit([Bind(Include = "Id,Name,BudgetId,Amount,Description")] BudgetItem budgetItem)
         {
             if (ModelState.IsValid)
             {
