@@ -13,6 +13,11 @@ namespace BudgetDestroyer.Helpers
 
         public void AddToAccount(int acctId, decimal amount)
         {
+            if (amount < 0)
+            {
+                amount *= -1;
+            }
+
             var account = db.HouseAccounts.Find(acctId);
             account.Balance += amount;
 
@@ -22,6 +27,11 @@ namespace BudgetDestroyer.Helpers
 
         public void AddToBudgetItem(int itemId, decimal amount)
         {
+            if (amount < 0)
+            {
+                amount *= -1;
+            }
+
             var budgetItem = db.BudgetItems.Find(itemId);
             budgetItem.Amount += amount;
 
@@ -68,6 +78,31 @@ namespace BudgetDestroyer.Helpers
 
             db.Entry(budget).State = EntityState.Modified;
             db.Entry(budgetItem).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        public void ChangeBudgetItem(int oldId, int newId, decimal amount)
+        {
+            var oldBudgetItem = db.BudgetItems.Find(oldId);
+            var newBudgetItem = db.BudgetItems.Find(newId);
+
+            if (newBudgetItem.BudgetId != oldBudgetItem.BudgetId)
+            {
+                var newBudget = db.Budgets.Find(newBudgetItem.BudgetId);
+                var oldBudget = db.Budgets.Find(oldBudgetItem.BudgetId);
+
+                newBudget.Amount += amount;
+                oldBudget.Amount -= amount;
+
+                db.Entry(newBudget).State = EntityState.Modified;
+                db.Entry(oldBudget).State = EntityState.Modified;
+            }
+
+            newBudgetItem.Amount += amount;
+            oldBudgetItem.Amount -= amount;
+
+            db.Entry(oldBudgetItem).State = EntityState.Modified;
+            db.Entry(newBudgetItem).State = EntityState.Modified;
             db.SaveChanges();
         }
     }
