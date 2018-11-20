@@ -1,4 +1,6 @@
 ﻿@using BudgetDestroyer.Models
+@using BudgetDestroyer.Helpers
+@using Microsoft.AspNet.Identity
 @model IEnumerable<BudgetDestroyer.Models.Transaction>
 
 @{
@@ -10,9 +12,12 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title h3">Transactions</div>
-                <button type="button" class="btn btn-outline-primary btn-sm btnSpace" data-toggle="modal" data-target="#addTransactionModal">
-                    <i class="fa fa-plus-circle m-right-xs"></i> Add Transaction
-                </button>
+                @if (HouseholdHelper.IsAnyAccounts(User.Identity.GetUserId()) && HouseholdHelper.IsAnyBudgetItems(User.Identity.GetUserId()))
+                {
+                    <button type="button" class="btn btn-outline-primary btn-sm btnSpace" data-toggle="modal" data-target="#addTransactionModal">
+                        <i class="fa fa-plus-circle m-right-xs"></i> Add Transaction
+                    </button>
+                }
             </div>
 
             <div class="table-responsive col-md-11 align-self-md-center">

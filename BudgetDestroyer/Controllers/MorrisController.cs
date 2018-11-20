@@ -17,6 +17,7 @@ namespace BudgetDestroyer.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        [HttpPost]
         public ActionResult GetBudgetDataForBarChart()
         {
             var budgetData = new List<MorrisBudgetBar>();
@@ -56,6 +57,7 @@ namespace BudgetDestroyer.Controllers
             return Content(JsonConvert.SerializeObject(budgetData), "application/json");
         }
 
+        [HttpPost]
         public ActionResult GetBudgetItemDataForBarChart()
         {
             var budgetData = new List<MorrisBudgetBar>();

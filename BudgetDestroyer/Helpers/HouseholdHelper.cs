@@ -94,5 +94,23 @@ namespace BudgetDestroyer.Helpers
 
             return true;
         }
+
+        public static bool IsAnyBudgets(string userId)
+        {
+            var householdId = db.Users.Find(userId).HouseholdId;
+            return db.Budgets.Any(b => b.HouseholdId == householdId);
+        }
+
+        public static bool IsAnyBudgetItems(string userId)
+        {
+            var householdId = db.Users.Find(userId).HouseholdId;
+            return db.BudgetItems.Any(i => db.Budgets.Any(b => b.HouseholdId == householdId && b.Id == i.BudgetId));
+        }
+
+        public static bool IsAnyAccounts(string userId)
+        {
+            var householdId = db.Users.Find(userId).HouseholdId;
+            return db.HouseAccounts.Any(h => h.HouseholdId == householdId);
+        }
     }
 }

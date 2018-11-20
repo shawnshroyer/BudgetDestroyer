@@ -2,6 +2,10 @@
 @using BudgetDestroyer.Models
 @using Microsoft.AspNet.Identity
 
+@{
+    UserRolesHelper userRolesHelper = new UserRolesHelper();
+}
+
 <div class="header py-4">
     <div class="container">
         <div class="d-flex">
@@ -11,7 +15,7 @@
                 <span class="h3">Destroyer</span>
             </a>
             <div class="d-flex order-lg-2 ml-auto">
-                @if (HouseholdHelper.IsUserInAHouse(User.Identity.GetUserId()))
+                @if (HouseholdHelper.IsUserInAHouse(User.Identity.GetUserId()) && HouseholdHelper.AnyUsersInHousehold(HouseholdHelper.GetUserHouseholdId(User.Identity.GetUserId()).GetValueOrDefault()))
                 {
                     <div class="nav-item d-none d-md-flex">
                         <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#leaveModal">
@@ -19,7 +23,8 @@
                         </button>
                     </div>
                 }
-                else
+
+                @if (! HouseholdHelper.IsUserInAHouse(User.Identity.GetUserId()))
                 {
                     <div class="nav-item d-none d-md-flex">
                         @*<button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#createModal">
@@ -31,7 +36,7 @@
                     </div>
                 }
 
-                @if (User.IsInRole("HoH")) //Find new way to user is in role
+                @if (userRolesHelper.IsUserInRole(User.Identity.GetUserId(), "HoH"))
                 {
                     <div class="nav-item d-none d-md-flex">
                         <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#myModal">

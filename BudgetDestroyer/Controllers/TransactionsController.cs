@@ -20,12 +20,11 @@ namespace BudgetDestroyer.Controllers
         private TransactionsHelper transactionsHelper = new TransactionsHelper();
 
         // GET: Transactions
-        [ChildActionOnly]
-        public ActionResult Index()
-        {
-            var transactions = db.Transactions.Include(t => t.EnteredBy).Include(t => t.HouseAccount).Include(t => t.TransactionType);
-            return View(transactions.ToList());
-        }
+        //public ActionResult Index()
+        //{
+        //    var transactions = db.Transactions.Include(t => t.EnteredBy).Include(t => t.HouseAccount).Include(t => t.TransactionType);
+        //    return View(transactions.ToList());
+        //}
 
         //// GET: Transactions/Details/5
         //public ActionResult Details(int? id)
@@ -43,15 +42,15 @@ namespace BudgetDestroyer.Controllers
         //}
 
         // GET: Transactions/Create
-        public ActionResult Create()
-        {
-            ViewBag.EnteredById = new SelectList(db.Users, "Id", "FirstName");
-            ViewBag.HouseAccountId = new SelectList(db.HouseAccounts, "Id", "Name");
-            ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name");
-            ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name");
+        //public ActionResult Create()
+        //{
+        //    ViewBag.EnteredById = new SelectList(db.Users, "Id", "FirstName");
+        //    ViewBag.HouseAccountId = new SelectList(db.HouseAccounts, "Id", "Name");
+        //    ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name");
+        //    ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name");
 
-            return View();
-        }
+        //    return View();
+        //}
 
         // POST: Transactions/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
