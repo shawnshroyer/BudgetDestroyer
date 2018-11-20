@@ -197,6 +197,7 @@
     <Compile Include="Controllers\HouseAccountsController.cs" />
     <Compile Include="Controllers\HouseholdsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MorrisController.cs" />
     <Compile Include="Controllers\TransactionsController.cs" />
     <Compile Include="Controllers\TransactionTypesController.cs" />
     <Compile Include="Extensions\AuthorizeExtensions.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="Models\Household.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MorrisBudgetBar.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\TransactionType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -804,6 +806,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Morris\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
