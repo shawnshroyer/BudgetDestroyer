@@ -68,7 +68,7 @@ namespace BudgetDestroyer.Controllers
                 if (transaction.TransactionTypeId == 3) //Deposit
                 {
                     transactionsHelper.AddToAccount(transaction.HouseAccountId, transaction.Amount);
-                    transactionsHelper.AddToBudgetItem(transaction.BudgetItemId, transaction.Amount);
+                    //transactionsHelper.AddToBudgetItem(transaction.BudgetItemId, transaction.Amount);
                 }
                 else if (transaction.TransactionTypeId == 4) //Withdraw
                 {
@@ -156,28 +156,31 @@ namespace BudgetDestroyer.Controllers
                     //Logic change from withdraw to deposit (run add old ammount add new mount)
 
                     transactionsHelper.AddToAccount(transaction.HouseAccountId, modAmount);
-                    transactionsHelper.AddToBudgetItem(transaction.BudgetItemId, modAmount);
+                    transactionsHelper.AddToBudgetItem(transaction.BudgetItemId, (oldTransaction.Amount * -1));
                 }
                 else if (transaction.TransactionTypeId == 4 && transaction.TransactionTypeId != oldTransaction.TransactionTypeId) //Withdraw
                 {
                     //Logic change from deposit to withdraw (run sub old and then new ammount)
                     decimal modAmount = 0.00M;
-                    
+                    decimal budgetAmount = 0.00M;
+
                     if (transaction.Amount < 0)
                     {
                         oldTransaction.Amount *= -1;
                         modAmount = transaction.Amount + oldTransaction.Amount;
+                        budgetAmount = transaction.Amount;
                     }
                     else
                     {
                         modAmount = transaction.Amount + oldTransaction.Amount;
                         modAmount *= -1;
                         transaction.Amount *= -1;
+                        budgetAmount = transaction.Amount;
                     }
 
                     //These will properly handle negative or poitive numbers.
                     transactionsHelper.SubtractFromAccount(transaction.HouseAccountId, modAmount);
-                    transactionsHelper.SubtractFromBudgetItem(transaction.BudgetItemId, modAmount);
+                    transactionsHelper.SubtractFromBudgetItem(transaction.BudgetItemId, budgetAmount);
                 }
                 else if (transaction.TransactionTypeId == 3 && transaction.Amount != oldTransaction.Amount)  //Deposit
                 {
@@ -190,13 +193,13 @@ namespace BudgetDestroyer.Controllers
                     {
                         var modAmount = transaction.Amount - oldTransaction.Amount;
                         transactionsHelper.AddToAccount(transaction.HouseAccountId, modAmount);
-                        transactionsHelper.AddToBudgetItem(transaction.BudgetItemId, modAmount);
+                        //transactionsHelper.AddToBudgetItem(transaction.BudgetItemId, modAmount);
                     }
                     else if (transaction.Amount < oldTransaction.Amount)
                     {
                         var modAmount = oldTransaction.Amount - transaction.Amount;
                         transactionsHelper.SubtractFromAccount(transaction.HouseAccountId, modAmount);
-                        transactionsHelper.SubtractFromBudgetItem(transaction.BudgetItemId, modAmount);
+                        //transactionsHelper.SubtractFromBudgetItem(transaction.BudgetItemId, modAmount);
                     }
                 }
                 else if (transaction.TransactionTypeId == 4 && transaction.Amount != oldTransaction.Amount) //Withdraw
